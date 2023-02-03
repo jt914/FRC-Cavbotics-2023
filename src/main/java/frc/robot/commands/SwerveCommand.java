@@ -1,0 +1,82 @@
+package frc.robot.commands;
+
+import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.SwerveDrive;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+public class SwerveCommand extends CommandBase {
+  private static SwerveDrive swerveDrive;
+  private static XboxController remote;
+
+  public SwerveCommand(SwerveDrive drive) {
+    swerveDrive = drive;
+  }
+
+  @Override
+  public void initialize() {
+    remote = RobotContainer.xboxController;
+
+  }
+
+  @Override
+  public void execute() {
+
+
+
+
+    if (Math.abs(remote.getLeftX()) >= 0.1 || Math.abs(remote.getLeftY()) >= 0.1
+        || Math.abs(remote.getRightX()) >= 0.1) {
+      swerveDrive.updatePeriodic(-remote.getLeftX(), -remote.getLeftY(), remote.getRightX());
+    } else {
+      swerveDrive.stopAll();
+    }
+
+
+    if(remote.getLeftTriggerAxis() >= 0.1){
+      RobotContainer.arm.stageTwo.set(Constants.armSpeed);
+    }
+    else if(remote.getRightTriggerAxis() >= 0.1){
+      RobotContainer.arm.stageTwo.set(-Constants.armSpeed);
+    }
+    else{
+      RobotContainer.arm.stageTwo.stop();
+    }
+
+    if(remote.getLeftBumper()){
+      RobotContainer.arm.stageOne.set(Constants.armSpeed);
+    }
+    else if(remote.getRightBumper()){
+      RobotContainer.arm.stageOne.set(-Constants.armSpeed);
+    }
+    else{
+      RobotContainer.arm.stageOne.stop();
+    }
+
+    if(remote.getXButtonPressed()){
+      if(Constants.armSpeed == 0.10){
+        Constants.armSpeed = 0.07;
+      }else{
+        Constants.armSpeed = 0.10;
+      }
+    }
+
+
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    // NetworkTableInstance.getDefault().getTable("/limelight-sam").getEntry("ledMode").setDouble(1);
+    NetworkTableInstance.getDefault().getTable("/datatable").getEntry("SwerveCommand").setBoolean(false);
+    swerveDrive.stopAll();
+  }
+
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}
