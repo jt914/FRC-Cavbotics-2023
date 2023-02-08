@@ -38,30 +38,30 @@ public class SwerveCommand extends CommandBase {
 
 
     if(remote.getLeftTriggerAxis() >= 0.1){
-      RobotContainer.arm.stageTwo.set(Constants.armSpeed);
+      RobotContainer.arm.stageTwo.setTarget(RobotContainer.arm.stageTwo.getTarget()+Constants.armSpeed);
     }
     else if(remote.getRightTriggerAxis() >= 0.1){
-      RobotContainer.arm.stageTwo.set(-Constants.armSpeed);
+      RobotContainer.arm.stageTwo.setTarget(RobotContainer.arm.stageTwo.getTarget()-Constants.armSpeed);
     }
     else{
       RobotContainer.arm.stageTwo.stop();
     }
 
     if(remote.getLeftBumper()){
-      RobotContainer.arm.stageOne.set(Constants.armSpeed);
+      RobotContainer.arm.stageOne.setTarget(RobotContainer.arm.stageOne.getTarget()+Constants.armSpeed);
     }
     else if(remote.getRightBumper()){
-      RobotContainer.arm.stageOne.set(-Constants.armSpeed);
+      RobotContainer.arm.stageOne.setTarget(RobotContainer.arm.stageOne.getTarget()-Constants.armSpeed);
     }
     else{
       RobotContainer.arm.stageOne.stop();
     }
 
     if(remote.getXButtonPressed()){
-      if(Constants.armSpeed == 0.10){
-        Constants.armSpeed = 0.07;
+      if(Constants.armSpeed == 0.1){
+        Constants.armSpeed = 0.1;
       }else{
-        Constants.armSpeed = 0.10;
+        Constants.armSpeed = 0.1;
       }
     }
 
@@ -77,6 +77,6 @@ public class SwerveCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return false; 
   }
 }

@@ -32,7 +32,7 @@
     public Robot(){
       addPeriodic(() -> {
         // SmartDashboard.putNumber("ADIS", gyro1.getXComplementaryAngle());
-        System.out.println("ADIS" +  gyro1.getXComplementaryAngle());
+        // System.out.println("ADIS" +  gyro1.getXComplementaryAngle());
 
     
 

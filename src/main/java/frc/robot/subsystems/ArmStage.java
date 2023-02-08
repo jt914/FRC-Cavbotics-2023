@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ArmStage extends SubsystemBase {
     private CANSparkMax motor;
     public Rotation2d currentAngle;
+    public Rotation2d targetAngle;
     public RelativeEncoder enc;
 
 
@@ -26,16 +28,20 @@ public class ArmStage extends SubsystemBase {
     enc.setPositionConversionFactor(1);
     motor.setSmartCurrentLimit(80, 80);
     currentAngle = new Rotation2d(startingAngle);
-
+    targetAngle = new Rotation2d(startingAngle);
+    //motor.setIdleMode(IdleMode.kBrake);
   }
 
   public double getAngle(){
     return enc.getPosition();
   }
 
-  public void set(double speed){
-    motor.set(speed);
+  public void setTarget(double angleTarget){
+    targetAngle = Rotation2d.fromDegrees(angleTarget);
+  }
 
+  public double getTarget(){
+    return targetAngle.getDegrees();
   }
 
   public void stop(){
