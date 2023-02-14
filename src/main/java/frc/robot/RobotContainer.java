@@ -46,7 +46,8 @@ public class RobotContainer {
 
     //left is out right is back
     new JoystickButton(xboxController, XboxController.Button.kStart.value).onTrue(new SwerveCommand(Constants.swerveDrive));
-    new JoystickButton(xboxController, XboxController.Button.kB.value).onTrue(new Score(Constants.arm));
+    // new JoystickButton(xboxController, XboxController.Button.kB.value).onTrue(new Score(Constants.arm));
+    new JoystickButton(xboxController, XboxController.Button.kBack.value).onTrue(new ArmCommand(Constants.arm));
 
     // new JoystickButton(xboxController, XboxController.Button.kLeftBumper.value).whileTrue(new RetractArm(arm, 1));
     // new JoystickButton(xboxController, XboxController.Button.kRightBumper.value).whileTrue(new ExtendArm(arm, 1));

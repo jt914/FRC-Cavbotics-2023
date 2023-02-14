@@ -22,6 +22,17 @@ public class Arm extends SubsystemBase{
     stageTwo = new ArmStage(9, 0);
   }
 
+  public void changeSpeed(){
+    if(stageOne.kP == 0.0001){
+      stageOne.kP = 0.00015;
+      stageTwo.kP = 0.00015;
+    }else{
+      stageOne.kP = 0.0001;
+      stageTwo.kP = 0.0001;
+
+    }
+  }
+
   public void stopAll(){
     stageOne.stop();
     stageTwo.stop();

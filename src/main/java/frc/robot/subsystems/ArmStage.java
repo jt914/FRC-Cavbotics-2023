@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -14,10 +15,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmStage extends SubsystemBase {
-    private CANSparkMax motor;
+    public CANSparkMax motor;
     public Rotation2d currentAngle;
     public Rotation2d targetAngle;
     public RelativeEncoder enc;
+    public SparkMaxPIDController m_pidController;
+    public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
+    public double rotations;
+  
+
 
 
   /** Creates a new ExampleSubsystem. */
@@ -29,6 +35,28 @@ public class ArmStage extends SubsystemBase {
     motor.setSmartCurrentLimit(80, 80);
     currentAngle = new Rotation2d(startingAngle);
     targetAngle = new Rotation2d(startingAngle);
+    motor.restoreFactoryDefaults();
+    m_pidController = motor.getPIDController();
+    rotations = 0;
+
+    
+    kP = 0.0001; 
+    kI = 0;
+    kD = 0; 
+    kIz = 0; 
+    kFF = .00001; 
+    kMaxOutput = 1; 
+    kMinOutput = -1;
+
+    m_pidController.setP(kP);
+    m_pidController.setI(kI);
+    m_pidController.setD(kD);
+    m_pidController.setIZone(kIz);
+    m_pidController.setFF(kFF);
+    m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+
+
+
     //motor.setIdleMode(IdleMode.kBrake);
   }
 
@@ -36,13 +64,13 @@ public class ArmStage extends SubsystemBase {
     return enc.getPosition();
   }
 
-  public void setTarget(double angleTarget){
-    targetAngle = Rotation2d.fromDegrees(angleTarget);
-  }
+  // public void setTarget(double angleTarget){
+  //   targetAngle = Rotation2d.fromDegrees(angleTarget);
+  // }
 
-  public double getTarget(){
-    return targetAngle.getDegrees();
-  }
+  // public double getTarget(){
+  //   return targetAngle.getDegrees();
+  // }
 
   public void stop(){
     motor.set(0);
