@@ -32,11 +32,16 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() {
 
+    //changes speed of the arm movement !!!not tested
     if(remote.getAButton()){
         arm.changeSpeed();
         
     }
 
+
+    //different stages of the arm wil move in different directions depending on what button on the controller is pressed
+    //note: will need to implement counter movement in the first stage of the arm when moving the second stage
+    //NEED TO TEST
     if(remote.getRightBumper())
     {
         arm.stageOne.rotations += .01;
