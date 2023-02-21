@@ -40,7 +40,7 @@ public class ArmStage extends SubsystemBase {
     rotations = 0;
 
     
-    kP = 0.0001; 
+    kP = 0.07; 
     kI = 0;
     kD = 0; 
     kIz = 0; 
@@ -56,6 +56,7 @@ public class ArmStage extends SubsystemBase {
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
 
 
+    
 
     //motor.setIdleMode(IdleMode.kBrake);
   }

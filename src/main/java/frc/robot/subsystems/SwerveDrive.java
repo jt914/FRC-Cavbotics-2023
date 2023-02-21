@@ -84,8 +84,8 @@ public class SwerveDrive extends SubsystemBase{
 
   public void updatePeriodic(double translateY, double translateX, double yaw) {
 
-    // speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translateY * MAX_SPEED, translateX * MAX_SPEED * -1,
-    //     yaw * MAX_RADIANS, new Rotation2d(Math.toRadians(getGyroAngle())));
+    speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translateY * MAX_SPEED, translateX * MAX_SPEED * -1,
+        yaw * MAX_RADIANS, new Rotation2d(Math.toRadians(getGyroAngle())));
     speeds = new ChassisSpeeds(translateY * MAX_SPEED, translateX *
     MAX_SPEED * -1, yaw * MAX_RADIANS);
 
@@ -132,7 +132,8 @@ public class SwerveDrive extends SubsystemBase{
   }
 
   public double getDriveDistance(){
-    return m_frontLeftLocation.getDrive();
+    return 0;
+    // return m_frontLeftLocation.getDrive();
   }
 
   public Pose2d getStarting(){
@@ -142,7 +143,8 @@ public class SwerveDrive extends SubsystemBase{
       case 3: return new Pose2d(0,0, null);
 
     }
-    return new Pose2d(0, 0, null);
+    return null;
+    // return new Pose2d(0, 0, null);
     
   }
 

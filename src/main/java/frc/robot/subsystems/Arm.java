@@ -18,17 +18,18 @@ public class Arm extends SubsystemBase{
 
 
   public Arm() {
-    stageOne = new ArmStage(8, 0);
-    stageTwo = new ArmStage(9, 0);
+    stageOne = new ArmStage(6, 0);
+    stageTwo = new ArmStage(5, 0);
+    stageTwo.kI = 0.01;
   }
 
   public void changeSpeed(){
-    if(stageOne.kP == 0.0001){
+    if(stageOne.kP == 0.07){
       stageOne.kP = 0.00015;
       stageTwo.kP = 0.00015;
     }else{
-      stageOne.kP = 0.0001;
-      stageTwo.kP = 0.0001;
+      stageOne.kP = 0.05;
+      stageTwo.kP = 0.05;
 
     }
   }

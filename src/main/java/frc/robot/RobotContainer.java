@@ -38,9 +38,9 @@ public class RobotContainer {
     //starting is which auto pos its starting. Since this if statement will only run if auto has not been run before, we set it as 4 because we do not know the position
     //of the robot.
 
-    if(Constants.swerveDrive == null){
-      Constants.swerveDrive = new SwerveDrive(0.2923, 4);
-    }
+    // if(Constants.swerveDrive == null){
+    //   Constants.swerveDrive = new SwerveDrive(0.2923, 4);
+    // }
 
 
 
