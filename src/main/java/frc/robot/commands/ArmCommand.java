@@ -44,27 +44,31 @@ public class ArmCommand extends CommandBase {
     //NEED TO TEST
     if(remote.getRightBumper())
     {
-        arm.stageOne.rotations += .16;
-        arm.stageOne.m_pidController.setReference(arm.stageOne.rotations, CANSparkMax.ControlType.kPosition);    
+      double rotations = 0.02;
+      arm.stageOne.rotations += rotations;
+      arm.stageTwo.rotations += rotations * 0.6875;
+      arm.stageOne.m_pidController.setReference(arm.stageOne.rotations, CANSparkMax.ControlType.kPosition);    
 
     }
     if(remote.getLeftBumper())
     {
-        arm.stageOne.rotations -= .16;
-        arm.stageOne.m_pidController.setReference(arm.stageOne.rotations, CANSparkMax.ControlType.kPosition);    
+      double rotations = 0.02;
+      arm.stageOne.rotations -= rotations;
+      arm.stageTwo.rotations -= rotations * 0.6875;
+      arm.stageOne.m_pidController.setReference(arm.stageOne.rotations, CANSparkMax.ControlType.kPosition);    
 
     }
     if(remote.getRightTriggerAxis() > 0.1)
     {
         //can modify change speed to accept an input and multiply that by the trigger axis
-        arm.stageTwo.rotations += .04; 
+        arm.stageTwo.rotations += .08; 
 
         arm.stageTwo.m_pidController.setReference(arm.stageTwo.rotations, CANSparkMax.ControlType.kPosition);    
 
     }
     if(remote.getLeftTriggerAxis() > 0.1)
     {
-        arm.stageTwo.rotations -= .04;
+        arm.stageTwo.rotations -= .08;
 
         arm.stageTwo.m_pidController.setReference(arm.stageTwo.rotations, CANSparkMax.ControlType.kPosition);    
 

@@ -18,9 +18,9 @@ public class Arm extends SubsystemBase{
 
 
   public Arm() {
-    stageOne = new ArmStage(6, 0);
-    stageTwo = new ArmStage(5, 0);
-    stageTwo.kI = 0.01;
+    stageOne = new ArmStage(5, 0);
+    stageTwo = new ArmStage(6, 0);
+    stageTwo.kP = 0.01;
   }
 
   public void changeSpeed(){

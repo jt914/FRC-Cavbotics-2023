@@ -40,7 +40,7 @@ public class ArmStage extends SubsystemBase {
     rotations = 0;
 
     
-    kP = 0.07; 
+    kP = 0.035; 
     kI = 0;
     kD = 0; 
     kIz = 0; 
