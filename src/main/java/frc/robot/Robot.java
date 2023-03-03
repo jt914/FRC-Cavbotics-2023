@@ -85,6 +85,9 @@
       // and running subsystem periodic() methods.  This must be called from the robot's periodic
       // block in order for anything in the Command-based framework to work.
       CommandScheduler.getInstance().run();
+      // if(Constants.camera.getLatestResult().hasTargets() && Constants.camera.getLatestResult().getBestTarget().getPoseAmbiguity() <= 0.2){
+
+      // }
     }
 
     /** This function is called once each time the robot enters Disabled mode. */

@@ -1,9 +1,10 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -12,8 +13,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.*;
-import com.kauailabs.navx.frc.*;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants;
 
 public class SwerveDrive extends SubsystemBase{
 
@@ -29,7 +32,7 @@ public class SwerveDrive extends SubsystemBase{
   public AHRS gyro;
   public CommandXboxController remote;
   public int startingPos;
-  public SwerveDriveOdometry m_Odometry;
+  // public SwerveDriveOdometry m_Odometry;
 
   
 
@@ -52,10 +55,10 @@ public class SwerveDrive extends SubsystemBase{
     moduleState = new SwerveModuleState[4];
     startingPos = starting;
 
-    m_frontRightLocation = new SwerveModule(4, 7, 0);
-    m_frontLeftLocation = new SwerveModule(14, 12, 1);
-    m_backLeftLocation = new SwerveModule(2, 5, 2);
-    m_backRightLocation = new SwerveModule(10, 6, 3);
+    m_frontRightLocation = new SwerveModule(2, 1, 0);
+    m_frontLeftLocation = new SwerveModule(3, 4, 1);
+    m_backLeftLocation = new SwerveModule(5, 6, 2);
+    m_backRightLocation = new SwerveModule(7, 8, 3);
 
     
     m_frontRightLocation.reset();
@@ -73,12 +76,12 @@ public class SwerveDrive extends SubsystemBase{
     }
 
     
-    m_Odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d(), new SwerveModulePosition[]{
-      m_frontLeftLocation.getPosition(),
-      m_frontRightLocation.getPosition(),
-      m_backLeftLocation.getPosition(),
-      m_backRightLocation.getPosition()
-    }, getStarting());
+    // m_Odometry = new SwerveDriveOdometry(kinematics, gyro.getRotation2d(), new SwerveModulePosition[]{
+    //   m_frontLeftLocation.getPosition(),
+    //   m_frontRightLocation.getPosition(),
+    //   m_backLeftLocation.getPosition(),
+    //   m_backRightLocation.getPosition()
+    // }, getStarting());
 
   }
 
@@ -102,38 +105,99 @@ public class SwerveDrive extends SubsystemBase{
     m_backLeftLocation.setModule(optimized3.angle, optimized3.speedMetersPerSecond);
     m_backRightLocation.setModule(optimized4.angle, optimized4.speedMetersPerSecond);
 
+    // PhotonPipelineResult result = Constants.camera.getLatestResult();
+    // PhotonTrackedTarget bestTarget = result.getBestTarget();
 
-    if(Constants.camera.getLatestResult().hasTargets() && Constants.camera.getLatestResult().getBestTarget().getPoseAmbiguity() <= 0.2){
-        m_Odometry.resetPosition(tagToModAngle(Constants.camera.getLatestResult().getBestTarget().getFiducialId()), tagToModPos(Constants.camera.getLatestResult().getBestTarget().getFiducialId()), tagToPose(Constants.camera.getLatestResult().getBestTarget().getFiducialId()));
-    }
+    // if(result.hasTargets() && result.getBestTarget().getPoseAmbiguity() <= 0.2){
+
+    //   switch(Constants.camera.getLatestResult().getBestTarget().getFiducialId()){
+    //       case 1:
+    //       m_Odometry.resetPosition(gyro.getRotation2d(), 
+    //       new SwerveModulePosition[] {
+    //         m_frontLeftLocation.getPosition(), m_frontRightLocation.getPosition(),
+    //         m_backLeftLocation.getPosition(), m_backRightLocation.getPosition()
+    //       }, new Pose2d(, y, theta));
+    //       case 2:
+    //       m_Odometry.resetPosition(gyro.getRotation2d(), 
+    //       new SwerveModulePosition[] {
+    //         m_frontLeftLocation.getPosition(), m_frontRightLocation.getPosition(),
+    //         m_backLeftLocation.getPosition(), m_backRightLocation.getPosition()
+    //       }, new Pose2d(x, y, theta));
+
+    //       case 3:
+    //       m_Odometry.resetPosition(gyro.getRotation2d(), 
+    //       new SwerveModulePosition[] {
+    //         m_frontLeftLocation.getPosition(), m_frontRightLocation.getPosition(),
+    //         m_backLeftLocation.getPosition(), m_backRightLocation.getPosition()
+    //       }, new Pose2d(x, y, theta));
+
+    //       case 4:
+    //       m_Odometry.resetPosition(gyro.getRotation2d(), 
+    //       new SwerveModulePosition[] {
+    //         m_frontLeftLocation.getPosition(), m_frontRightLocation.getPosition(),
+    //         m_backLeftLocation.getPosition(), m_backRightLocation.getPosition()
+    //       }, new Pose2d(x, y, theta));
+
+    //       case 5:
+    //       m_Odometry.resetPosition(gyro.getRotation2d(), 
+    //       new SwerveModulePosition[] {
+    //         m_frontLeftLocation.getPosition(), m_frontRightLocation.getPosition(),
+    //         m_backLeftLocation.getPosition(), m_backRightLocation.getPosition()
+    //       }, new Pose2d(x, y, theta));
+
+    //       case 6:
+    //       m_Odometry.resetPosition(gyro.getRotation2d(), 
+    //       new SwerveModulePosition[] {
+    //         m_frontLeftLocation.getPosition(), m_frontRightLocation.getPosition(),
+    //         m_backLeftLocation.getPosition(), m_backRightLocation.getPosition()
+    //       }, new Pose2d(x, y, theta));
+
+    //       case 7:
+    //       m_Odometry.resetPosition(gyro.getRotation2d(), 
+    //       new SwerveModulePosition[] {
+    //         m_frontLeftLocation.getPosition(), m_frontRightLocation.getPosition(),
+    //         m_backLeftLocation.getPosition(), m_backRightLocation.getPosition()
+    //       }, new Pose2d(x, y, theta));
+
+    //       case 8:
+    //       m_Odometry.resetPosition(gyro.getRotation2d(), 
+    //       new SwerveModulePosition[] {
+    //         m_frontLeftLocation.getPosition(), m_frontRightLocation.getPosition(),
+    //         m_backLeftLocation.getPosition(), m_backRightLocation.getPosition()
+    //       }, new Pose2d(x, y, theta));
+
+  
+      //    }
+      
+      
+      // }
   }
 
-  public Rotation2d tagToModAngle(int tag){
-    //figure out later
-    if(tag == 1){
-      return null;
-    }
-    return null;
-  }
+  // public Rotation2d tagToModAngle(int tag){
+  //   //figure out later
+  //   if(tag == 1){
+  //     return null;
+  //   }
+  //   return null;
+  // }
 
-  public SwerveModulePosition[] tagToModPos(int tag){
-    //figure out later
-    if(tag == 1){
-      return null;
-    }
-    return null;
-  }
+  // public SwerveModulePosition[] tagToModPos(int tag){
+  //   //figure out later
+  //   if(tag == 1){
+  //     return null;
+  //   }
+  //   return null;
+  // }
 
-  public Pose2d tagToPose(int tag){
-    if(tag == 1){
-      return null;
-    }
-    return null;
-  }
+  // public Pose2d tagToPose(int tag){
+  //   if(tag == 1){
+  //     return null;
+  //   }
+  //   return null;
+  // }
 
   public double getDriveDistance(){
-    return 0;
-    // return m_frontLeftLocation.getDrive();
+    return m_frontLeftLocation.getDrive();
   }
 
   public Pose2d getStarting(){
