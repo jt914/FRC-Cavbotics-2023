@@ -39,7 +39,7 @@ public class RobotContainer {
     //of the robot.
 
     if(Constants.swerveDrive == null){
-      Constants.swerveDrive = new SwerveDrive(0.2923, 4);
+      Constants.swerveDrive = new SwerveDrive(0.2923);
     }
 
 

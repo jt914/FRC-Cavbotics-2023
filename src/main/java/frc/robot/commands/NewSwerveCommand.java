@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class SwerveCommand extends CommandBase {
+public class NewSwerveCommand extends CommandBase {
   private static SwerveDrive swerveDrive;
   private static XboxController remote;
 
-  public SwerveCommand(SwerveDrive drive) {
+  public NewSwerveCommand(SwerveDrive drive) {
     swerveDrive = drive;
   }
 

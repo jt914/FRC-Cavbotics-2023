@@ -17,10 +17,8 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.XboxController;
 
-public class SwerveDrive extends SubsystemBase{
+public class NewSwerveDrive extends SubsystemBase{
 
   private SwerveModuleState[] moduleState;
   private ChassisSpeeds speeds;
@@ -33,16 +31,14 @@ public class SwerveDrive extends SubsystemBase{
   public double MAX_RADIANS;
   public AHRS gyro;
   public CommandXboxController remote;
-  private static XboxController remote1;
-  //public int startingPos;
+  public int startingPos;
   // public SwerveDriveOdometry m_Odometry;
 
   
 
 
-  public SwerveDrive(double distanceFromOrigin) {
+  public NewSwerveDrive(double distanceFromOrigin, int starting) {
 
-    remote1 = RobotContainer.xboxController;
 
     // (Y,X) format
     Translation2d frontRightLocation = new Translation2d(distanceFromOrigin, -distanceFromOrigin);
@@ -57,7 +53,7 @@ public class SwerveDrive extends SubsystemBase{
     MAX_RADIANS = 4;//5
 
     moduleState = new SwerveModuleState[4];
-    //startingPos = starting;
+    startingPos = starting;
 
     m_frontRightLocation = new SwerveModule(5, 6);
     m_frontLeftLocation = new SwerveModule(3, 4);
@@ -91,27 +87,23 @@ public class SwerveDrive extends SubsystemBase{
 
   public void updatePeriodic(double translateY, double translateX, double yaw) {
 
-    // speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translateY * MAX_SPEED, translateX * MAX_SPEED,
-    //     yaw * MAX_RADIANS, new Rotation2d(Math.toRadians(getGyroAngle())));
-    speeds = new ChassisSpeeds(translateY * MAX_SPEED, translateX * MAX_SPEED, yaw * MAX_RADIANS);
+    speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translateY * MAX_SPEED, translateX * MAX_SPEED,
+        yaw * MAX_RADIANS, new Rotation2d(Math.toRadians(getGyroAngle())));
+    speeds = new ChassisSpeeds(translateY * MAX_SPEED, translateX * -1 *
+    MAX_SPEED * -1, yaw * MAX_RADIANS);
 
     moduleState = kinematics.toSwerveModuleStates(speeds);
 
     var optimized1 = SwerveModuleState.optimize(moduleState[0], m_frontRightLocation.currentAngle);
-    var optimized2 = SwerveModuleState.optimize(moduleState[1], m_frontLeftLocation.currentAngle);
-    var optimized3 = SwerveModuleState.optimize(moduleState[2], m_backLeftLocation.currentAngle);
-    var optimized4 = SwerveModuleState.optimize(moduleState[3], m_backRightLocation.currentAngle);
+    var optimized2 = SwerveModuleState.optimize(moduleState[0], m_frontLeftLocation.currentAngle);
+    var optimized3 = SwerveModuleState.optimize(moduleState[1], m_backLeftLocation.currentAngle);
+    var optimized4 = SwerveModuleState.optimize(moduleState[2], m_backRightLocation.currentAngle);
 
 
     m_frontRightLocation.setModule(optimized1.angle, optimized1.speedMetersPerSecond);
-    if(Math.abs(remote1.getRightX()) >= 0.1){
-      m_frontLeftLocation.setModule(optimized2.angle, -optimized2.speedMetersPerSecond);
-      m_backRightLocation.setModule(optimized4.angle, -optimized4.speedMetersPerSecond);
-    } else {
-      m_frontLeftLocation.setModule(optimized2.angle, optimized2.speedMetersPerSecond);
-      m_backRightLocation.setModule(optimized4.angle, optimized4.speedMetersPerSecond);
-    }
+    m_frontLeftLocation.setModule(optimized2.angle, optimized2.speedMetersPerSecond);
     m_backLeftLocation.setModule(optimized3.angle, optimized3.speedMetersPerSecond);
+    m_backRightLocation.setModule(optimized4.angle, optimized4.speedMetersPerSecond);
 
     // PhotonPipelineResult result = Constants.camera.getLatestResult();
     // PhotonTrackedTarget bestTarget = result.getBestTarget();
@@ -208,17 +200,17 @@ public class SwerveDrive extends SubsystemBase{
     return m_frontLeftLocation.getDrive();
   }
 
-  // public Pose2d getStarting(){
-  //  switch(startingPos){
-  //    case 1: return new Pose2d(0,0, null);
-  //    case 2: return new Pose2d(0,0, null);
-  //    case 3: return new Pose2d(0,0, null);
+  public Pose2d getStarting(){
+    switch(startingPos){
+      case 1: return new Pose2d(0,0, null);
+      case 2: return new Pose2d(0,0, null);
+      case 3: return new Pose2d(0,0, null);
 
-  //  }
-  //  return null;
-  //   return new Pose2d(0, 0, null);
+    }
+    return null;
+    // return new Pose2d(0, 0, null);
     
-  // }
+  }
 
   public void resetDrive(){
     m_frontRightLocation.driveRest();

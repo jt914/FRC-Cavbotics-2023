@@ -22,7 +22,7 @@ public class SwerveModule extends SubsystemBase {
     public Rotation2d currentAngle;
     public RelativeEncoder driveEnc;
 
-    public SwerveModule(int turnComponent, int driveComponent, int encoderPort) {
+    public SwerveModule(int turnComponent, int driveComponent) {
 
 
         double p = 0.006;
