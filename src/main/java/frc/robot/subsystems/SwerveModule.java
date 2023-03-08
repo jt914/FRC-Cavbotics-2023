@@ -17,7 +17,7 @@ public class SwerveModule extends SubsystemBase {
 
     private CANSparkMax turn;
     private CANSparkMax drive;
-    private RelativeEncoder enc;
+    public RelativeEncoder enc;
     private PIDController cont;
     public Rotation2d currentAngle;
     public RelativeEncoder driveEnc;
@@ -42,14 +42,15 @@ public class SwerveModule extends SubsystemBase {
         // enc.reset();
         // turn.enableVoltageCompensation(12);
         // drive.enableVoltageCompensation(12);
-
         //turn.setOpenLoopRampRate(0);
         // drive.setOpenLoopRampRate(0.75);
         //turn.setClosedLoopRampRate(0);
         // drive.setClosedLoopRampRate(0.75);
         currentAngle = new Rotation2d(Math.PI/ 2 * -1);
         //ont = new PIDController(0.9, 0.00, 0);
-        
+        SparkMaxPIDController m_pidController = turn.getPIDController();
+        m_pidController.setOutputRange(-0.01, 0.01); 
+
         p = (double)NetworkTableInstance.getDefault().getTable("/datatable").getEntry("P").getNumber(0.005);
         i = (double)NetworkTableInstance.getDefault().getTable("/datatable").getEntry("I").getNumber(0);
         d = (double)NetworkTableInstance.getDefault().getTable("/datatable").getEntry("D").getNumber(0.00001);
@@ -63,7 +64,7 @@ public class SwerveModule extends SubsystemBase {
     
 
     public double newGet(){
-        double nativeUnits = 11.654; //the native units that equates to a full module rotation
+        double nativeUnits = 15.2; //the native units that equates to a full module rotation
         double tempAngle = enc.getPosition();
         if (Math.abs(enc.getPosition()) > nativeUnits){ //if the current encoder position is greater than one full rotation
             tempAngle = tempAngle % nativeUnits;
@@ -165,7 +166,7 @@ public class SwerveModule extends SubsystemBase {
 
     public double getDrive(){
         double wheelCircumference = Math.PI * 4;
-        double wheelRotations = (driveEnc.getPosition() / 2.58) /  2.5;
+        double wheelRotations = (driveEnc.getPosition() / 8);
         return wheelCircumference * wheelRotations;
     }
 

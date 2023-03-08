@@ -46,6 +46,7 @@ public class RobotContainer {
 
     //left is out right is back
     new JoystickButton(xboxController, XboxController.Button.kStart.value).onTrue(new SwerveCommand(Constants.swerveDrive));
+    // new JoystickButton(xboxController, XboxController.Button.kX.value).onTrue(new ChangeSpeed());
     // new JoystickButton(xboxController, XboxController.Button.kB.value).onTrue(new Score(Constants.arm));
     
     
@@ -68,7 +69,11 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    int routine = (int)(NetworkTableInstance.getDefault().getTable("/datatable").getEntry("routine").getDouble(0));
+    // int routine = (int)(NetworkTableInstance.getDefault().getTable("/datatable").getEntry("routine").getDouble(0));
+    int routine = 1;
+    if(routine == 1){
+      return new midRamp(Constants.swerveDrive);
+    }
     return null;
     // 0 is top, 1 is middle, 2 is bottom
 

@@ -37,6 +37,15 @@ public class SwerveCommand extends CommandBase {
     }
 
 
+    if(remote.getXButtonPressed()){
+
+    if(Constants.swerveDrive.MAX_SPEED == 2){
+      Constants.swerveDrive.MAX_SPEED = 0.2;
+    }else{
+      Constants.swerveDrive.MAX_SPEED = 2;
+    }
+  }
+
 
 
   }

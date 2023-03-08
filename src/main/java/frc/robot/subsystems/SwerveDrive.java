@@ -29,7 +29,7 @@ public class SwerveDrive extends SubsystemBase{
   public SwerveModule m_frontLeftLocation;
   public SwerveModule m_backLeftLocation;
   public SwerveModule m_backRightLocation;
-  private final double MAX_SPEED;
+  public double MAX_SPEED;
   public double MAX_RADIANS;
   public AHRS gyro;
   public CommandXboxController remote;
@@ -70,6 +70,8 @@ public class SwerveDrive extends SubsystemBase{
     m_backLeftLocation.reset();
     m_backRightLocation.reset();
 
+    
+
     try {
       gyro = new AHRS(SPI.Port.kMXP); 
       gyro.reset();
@@ -102,6 +104,7 @@ public class SwerveDrive extends SubsystemBase{
     var optimized3 = SwerveModuleState.optimize(moduleState[2], m_backLeftLocation.currentAngle);
     var optimized4 = SwerveModuleState.optimize(moduleState[3], m_backRightLocation.currentAngle);
 
+    
 
     m_frontRightLocation.setModule(optimized1.angle, optimized1.speedMetersPerSecond);
     if(Math.abs(remote1.getRightX()) >= 0.1){
@@ -112,6 +115,18 @@ public class SwerveDrive extends SubsystemBase{
       m_backRightLocation.setModule(optimized4.angle, optimized4.speedMetersPerSecond);
     }
     m_backLeftLocation.setModule(optimized3.angle, optimized3.speedMetersPerSecond);
+
+    //     m_frontRightLocation.setModule(moduleState[0].angle, optimized1.speedMetersPerSecond);
+    // if(Math.abs(remote1.getRightX()) >= 0.1){
+    //   m_frontLeftLocation.setModule(moduleState[1].angle, -optimized2.speedMetersPerSecond);
+    //   m_backRightLocation.setModule(moduleState[3].angle, -optimized4.speedMetersPerSecond);
+    // } else {
+    //   m_frontLeftLocation.setModule(moduleState[1].angle, optimized2.speedMetersPerSecond);
+    //   m_backRightLocation.setModule(moduleState[3].angle, optimized4.speedMetersPerSecond);
+    // }
+    // m_backLeftLocation.setModule(moduleState[2].angle, optimized3.speedMetersPerSecond);
+
+
 
     // PhotonPipelineResult result = Constants.camera.getLatestResult();
     // PhotonTrackedTarget bestTarget = result.getBestTarget();
