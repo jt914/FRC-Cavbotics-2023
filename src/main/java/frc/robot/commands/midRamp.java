@@ -43,12 +43,12 @@ public class midRamp extends CommandBase {
         switch(step){
             
             case 0:
-            if(Math.abs(Constants.gyro.getXComplementaryAngle()) > 15){
+            if(Math.abs(Constants.gyro.getXComplementaryAngle()) > 10){
                 step = 1;
             }
 
             else{
-                swerveDrive.updatePeriodic(0, -0.2,0);
+                swerveDrive.updatePeriodic(0, -0.3,0);
             }
             break;  
 
@@ -73,15 +73,15 @@ public class midRamp extends CommandBase {
 
     @Override
     public void end(boolean interrupted){
-        System.out.println("end1");
 
     }
 
     @Override
     public boolean isFinished(){
-        System.out.println("end2");
 
-        return false;
+        
+
+        return step >= 9;
     }
 
     

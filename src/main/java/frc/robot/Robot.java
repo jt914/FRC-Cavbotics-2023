@@ -6,7 +6,9 @@
 
   import java.text.DecimalFormat;
 
-  import com.kauailabs.navx.frc.AHRS;
+import org.photonvision.PhotonUtils;
+
+import com.kauailabs.navx.frc.AHRS;
 
   import edu.wpi.first.wpilibj.ADIS16470_IMU;
   import edu.wpi.first.wpilibj.TimedRobot;
@@ -111,7 +113,9 @@
 
     /** This function is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+      CommandScheduler.getInstance().run();
+    }
 
     @Override
     public void teleopInit() {
@@ -141,6 +145,11 @@
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
+      // var result = Constants.camera.getLatestResult();
+
+      // if(result.hasTargets()){
+      //   System.out.println(result.getBestTarget().get());
+      // }
 
     }
 

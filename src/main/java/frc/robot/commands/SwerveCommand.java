@@ -25,6 +25,7 @@ public class SwerveCommand extends CommandBase {
 
   @Override
   public void execute() {
+    System.out.println("wasd");
 
 
 

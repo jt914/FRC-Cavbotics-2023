@@ -31,7 +31,7 @@ public final class Constants {
   // public static final Arm arm = new Arm();
   public static double armSpeed = 0.36;
   public static ADIS16470_IMU gyro = new ADIS16470_IMU();
-  // public static final PhotonCamera camera = new PhotonCamera("photonvision"); //FIND TABLE NAME LATER
+  public static final PhotonCamera camera = new PhotonCamera("USB_2.0_Camera"); 
 
 
   public static class OperatorConstants {
