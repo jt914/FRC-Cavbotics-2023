@@ -146,7 +146,6 @@ import com.kauailabs.navx.frc.AHRS;
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-      Constants.arm.stageOne.reset();
 
       // var result = Constants.camera.getLatestResult();
 

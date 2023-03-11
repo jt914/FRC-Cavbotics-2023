@@ -37,6 +37,11 @@ public class ArmCommand extends CommandBase {
         arm.changeSpeed();
         
     }
+    if(remote.getXButton()){
+      arm.stageOne.enc.setPosition(0);
+      
+  }
+
 
 
     //different stages of the arm wil move in different directions depending on what button on the controller is pressed

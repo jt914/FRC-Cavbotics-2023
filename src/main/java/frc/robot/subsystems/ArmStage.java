@@ -31,7 +31,7 @@ public class ArmStage extends SubsystemBase {
     motor = new CANSparkMax(id, MotorType.kBrushless);
     motor.enableVoltageCompensation(12);
     enc = motor.getEncoder();
-    enc.setPositionConversionFactor(1);
+    // enc.setPositionConversionFactor(1);
     motor.setSmartCurrentLimit(80, 80);
     m_pidController = motor.getPIDController();
     rotations = 0;
@@ -42,15 +42,13 @@ public class ArmStage extends SubsystemBase {
     kD = 0; 
     kIz = 0; 
     kFF = .00001; 
-    kMaxOutput = 1.0/6; 
-    kMinOutput = -1.0/6;
 
-    m_pidController.setP(kP); 
+    m_pidController.setP(kP);
     m_pidController.setI(kI);
     m_pidController.setD(kD);
     m_pidController.setIZone(kIz);
     m_pidController.setFF(kFF);
-    m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+    m_pidController.setOutputRange((1.0/6), (1.0/6)); 
 
 
     
@@ -75,8 +73,11 @@ public class ArmStage extends SubsystemBase {
   }
 
   public void reset(){
-    System.out.println("enc.gePos" + enc.getPosition() + "rotations" + rotations);
-    
+    rotations = enc.getPosition();
+    m_pidController.setReference(rotations, CANSparkMax.ControlType.kPosition);
+    System.out.println("enc.getPos" + enc.getPosition() + "rotations" + rotations);
+
+    System.out.println(rotations);
   }
 
 
