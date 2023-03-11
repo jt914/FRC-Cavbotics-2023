@@ -124,6 +124,7 @@ import com.kauailabs.navx.frc.AHRS;
       // continue until interrupted by another command, remove
       // this line or comment it out.
 
+      Constants.arm.stageOne.reset();
       try {
         gyro2 = new AHRS(); 
         gyro2.reset();
@@ -145,6 +146,8 @@ import com.kauailabs.navx.frc.AHRS;
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
+      Constants.arm.stageOne.reset();
+
       // var result = Constants.camera.getLatestResult();
 
       // if(result.hasTargets()){

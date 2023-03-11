@@ -18,10 +18,8 @@ public class Arm extends SubsystemBase{
 
 
   public Arm() {
-    stageOne = null;
-    stageTwo = null;
-    stageOne = new ArmStage(5, 0);
-    stageTwo = new ArmStage(7, 0);
+    stageOne = new ArmStage(9);
+    stageTwo = new ArmStage(10);
     stageTwo.kP = 0.01;
   } 
 

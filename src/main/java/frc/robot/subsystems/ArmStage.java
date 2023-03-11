@@ -27,28 +27,25 @@ public class ArmStage extends SubsystemBase {
 
 
   /** Creates a new ExampleSubsystem. */
-  public ArmStage(int id, int startingAngle) {
+  public ArmStage(int id) {
     motor = new CANSparkMax(id, MotorType.kBrushless);
     motor.enableVoltageCompensation(12);
     enc = motor.getEncoder();
     enc.setPositionConversionFactor(1);
     motor.setSmartCurrentLimit(80, 80);
-    currentAngle = new Rotation2d(startingAngle);
-    targetAngle = new Rotation2d(startingAngle);
-    motor.restoreFactoryDefaults();
     m_pidController = motor.getPIDController();
     rotations = 0;
 
     
-    kP = 0.035; 
+    kP = 0.03; 
     kI = 0;
     kD = 0; 
     kIz = 0; 
     kFF = .00001; 
-    kMaxOutput = 1; 
-    kMinOutput = -1;
+    kMaxOutput = 1.0/6; 
+    kMinOutput = -1.0/6;
 
-    m_pidController.setP(kP);
+    m_pidController.setP(kP); 
     m_pidController.setI(kI);
     m_pidController.setD(kD);
     m_pidController.setIZone(kIz);
@@ -75,6 +72,11 @@ public class ArmStage extends SubsystemBase {
 
   public void stop(){
     motor.set(0);
+  }
+
+  public void reset(){
+    System.out.println("enc.gePos" + enc.getPosition() + "rotations" + rotations);
+    
   }
 
 
