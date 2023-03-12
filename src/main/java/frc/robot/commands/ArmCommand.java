@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -31,6 +32,11 @@ public class ArmCommand extends CommandBase {
 
   @Override
   public void execute() {
+    SmartDashboard.putNumber("current", arm.stageOne.enc.getPosition());
+    SmartDashboard.putNumber("desired", arm.stageOne.desiredAngle);
+
+    arm.stageOne.currentAngle = arm.stageOne.enc.getPosition();
+    arm.stageTwo.currentAngle = arm.stageTwo.enc.getPosition();
 
     //changes speed of the arm movement !!!not tested
     if(remote.getAButton()){
@@ -38,43 +44,76 @@ public class ArmCommand extends CommandBase {
         
     }
 
+    if(remote.getRightBumper()){
+    if(arm.stageOne.currentAngle <= arm.stageOne.desiredAngle){
+      arm.stageOne.motor.set(0.1);
+    }
+  }
+  else if(remote.getLeftBumper()){
+    if(arm.stageOne.currentAngle >= arm.stageOne.desiredAngle){
+      arm.stageOne.motor.set(-0.1);
+    }
+  }
+  if(remote.getRightBumperReleased()){
+    arm.stageOne.motor.set(0);
+
+  }
+
+  if(remote.getLeftBumperReleased()){
+    arm.stageOne.motor.set(0);
+
+  }
+
+
+  if(remote.getRightTriggerAxis() > 0.5){
+    if(arm.stageTwo.currentAngle <= arm.stageTwo.desiredAngle){
+      arm.stageTwo.motor.set(0.025);
+    }
+  }
+  else if(remote.getRightTriggerAxis() > 0.5){
+    if(arm.stageTwo.currentAngle >= arm.stageTwo.desiredAngle){
+      arm.stageTwo.motor.set(0.025);
+    }
+  }
+  if(remote.getRightTriggerAxis() < 0.1){
+    arm.stageTwo.motor.set(0);
+
+  }
+
+  if(remote.getLeftTriggerAxis() < 0.1){
+    arm.stageTwo.motor.set(0);
+
+  }
+
+
+
 
     //different stages of the arm wil move in different directions depending on what button on the controller is pressed
     //note: will need to implement counter movement in the first stage of the arm when moving the second stage
     //NEED TO TEST
     if(remote.getRightBumper())
     {
-      double rotations = 0.02;
-      arm.stageOne.rotations += rotations;
-      arm.stageTwo.rotations += rotations * 0.6875;
-      arm.stageOne.m_pidController.setReference(arm.stageOne.rotations, CANSparkMax.ControlType.kPosition);    
+
+      arm.stageOne.desiredAngle+=0.5;
 
     }
     if(remote.getLeftBumper())
     {
-      double rotations = 0.02;
-      arm.stageOne.rotations -= rotations;
-      arm.stageTwo.rotations -= rotations * 0.6875;
-      arm.stageOne.m_pidController.setReference(arm.stageOne.rotations, CANSparkMax.ControlType.kPosition);    
-
+      arm.stageOne.desiredAngle-=0.5;
     }
-    if(remote.getRightTriggerAxis() > 0.1)
+
+    if(remote.getLeftTriggerAxis() > 0.5)
     {
-        //can modify change speed to accept an input and multiply that by the trigger axis
-        arm.stageTwo.rotations += .08; 
 
-        arm.stageTwo.m_pidController.setReference(arm.stageTwo.rotations, CANSparkMax.ControlType.kPosition);    
+      arm.stageTwo.desiredAngle+=0.5;
 
     }
-    if(remote.getLeftTriggerAxis() > 0.1)
+    if(remote.getRightTriggerAxis() > 0.5)
     {
-        arm.stageTwo.rotations -= .08;
-
-        arm.stageTwo.m_pidController.setReference(arm.stageTwo.rotations, CANSparkMax.ControlType.kPosition);    
-
+      arm.stageTwo.desiredAngle-=0.5;
     }
-
-
+    arm.stageOne.desiredAngle = arm.stageOne.currentAngle;
+    arm.stageTwo.desiredAngle = arm.stageTwo.currentAngle;
 
 
 

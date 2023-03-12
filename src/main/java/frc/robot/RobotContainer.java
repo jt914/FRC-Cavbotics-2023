@@ -50,7 +50,7 @@ public class RobotContainer {
     // new JoystickButton(xboxController, XboxController.Button.kB.value).onTrue(new Score(Constants.arm));
     
     
-    // new JoystickButton(xboxController, XboxController.Button.kBack.value).onTrue(new ArmCommand(Constants.arm));
+    new JoystickButton(xboxController, XboxController.Button.kBack.value).onTrue(new ArmCommand(Constants.arm));
 
 
     // new JoystickButton(xboxController, XboxController.Button.kBack.value).whenPressed(getAutonomousCommand())

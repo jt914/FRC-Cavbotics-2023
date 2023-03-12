@@ -119,6 +119,7 @@ import com.kauailabs.navx.frc.AHRS;
 
     @Override
     public void teleopInit() {
+
       // This makes sure that the autonomous stops running when
       // teleop starts running. If you want the autonomous to
       // continue until interrupted by another command, remove
@@ -146,7 +147,8 @@ import com.kauailabs.navx.frc.AHRS;
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-      Constants.arm.stageOne.reset();
+      CommandScheduler.getInstance().run();
+
 
       // var result = Constants.camera.getLatestResult();
 

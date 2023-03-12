@@ -16,12 +16,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmStage extends SubsystemBase {
     public CANSparkMax motor;
-    public Rotation2d currentAngle;
-    public Rotation2d targetAngle;
+    public double currentAngle, desiredAngle;
     public RelativeEncoder enc;
     public SparkMaxPIDController m_pidController;
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
-    public double rotations;
   
 
 
@@ -34,8 +32,8 @@ public class ArmStage extends SubsystemBase {
     enc.setPositionConversionFactor(1);
     motor.setSmartCurrentLimit(80, 80);
     m_pidController = motor.getPIDController();
-    rotations = 0;
-
+    currentAngle = enc.getPosition();
+    desiredAngle = currentAngle;
     
     kP = 0.03; 
     kI = 0;
@@ -75,8 +73,11 @@ public class ArmStage extends SubsystemBase {
   }
 
   public void reset(){
-    System.out.println("enc.gePos" + enc.getPosition() + "rotations" + rotations);
     
+  }
+
+  public void updatePos(){
+    currentAngle = enc.getPosition();
   }
 
 
