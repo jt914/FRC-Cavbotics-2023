@@ -14,17 +14,16 @@ public class Arm extends SubsystemBase{
 
 
   public ArmStage stageOne;
-  public ArmStage stageTwo;
+  public ArmStageTwo stageTwo;
 
 
   public Arm() {
     stageOne = new ArmStage(9);
-    stageTwo = new ArmStage(10);
-    stageTwo.kP = 0.01;
+    stageTwo = new ArmStageTwo(10);
   } 
 
   public void changeSpeed(){
-    if(stageOne.kP == 0.07){
+    if(stageOne.kP == 0.1){
       stageOne.kP = 0.00015;
       stageTwo.kP = 0.00015;
     }else{

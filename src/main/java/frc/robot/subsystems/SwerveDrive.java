@@ -91,6 +91,20 @@ public class SwerveDrive extends SubsystemBase{
 
   }
 
+
+  public void setBrake(){
+    m_frontLeftLocation.setBrake();
+    m_frontRightLocation.setBrake();
+    m_backLeftLocation.setBrake();
+    m_backRightLocation.setBrake();
+  }
+
+  public void setCoast(){
+    m_frontLeftLocation.setCoast();
+    m_frontRightLocation.setCoast();
+    m_backLeftLocation.setCoast();
+    m_backRightLocation.setCoast();
+  }
   public void updatePeriodic(double translateY, double translateX, double yaw) {
 
     // speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translateY * MAX_SPEED, translateX * MAX_SPEED,

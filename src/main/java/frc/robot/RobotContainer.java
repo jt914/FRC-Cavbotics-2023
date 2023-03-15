@@ -21,13 +21,15 @@ public class RobotContainer {
 
   public ADIS16470_IMU gyro = Constants.gyro;
 
-  public static XboxController xboxController;
+  public static XboxController xboxController, xboxController2;
 
   public static double speed;
 
   public RobotContainer() {
     speed = 0.5;
     xboxController = new XboxController(0);
+    xboxController2 = new XboxController(1);
+
 
     configureBindings();
   }
@@ -50,9 +52,9 @@ public class RobotContainer {
     // new JoystickButton(xboxController, XboxController.Button.kB.value).onTrue(new Score(Constants.arm));
     
     
-    new JoystickButton(xboxController, XboxController.Button.kBack.value).onTrue(new ArmCommand(Constants.arm));
+    new JoystickButton(xboxController2, XboxController.Button.kBack.value).onTrue(new ArmCommand(Constants.arm));
 
-
+    
     // new JoystickButton(xboxController, XboxController.Button.kBack.value).whenPressed(getAutonomousCommand())
 
     // new JoystickButton(xboxController, XboxController.Button.kLeftBumper.value).whileTrue(new RetractArm(arm, 1));
@@ -72,7 +74,7 @@ public class RobotContainer {
     // int routine = (int)(NetworkTableInstance.getDefault().getTable("/datatable").getEntry("routine").getDouble(0));
     int routine = 1;
     if(routine == 1){
-      return new midRamp(Constants.swerveDrive);
+      return new ramp(Constants.swerveDrive);
     }
     return null;
     // 0 is top, 1 is middle, 2 is bottom
