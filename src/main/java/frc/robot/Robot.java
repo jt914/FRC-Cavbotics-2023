@@ -31,6 +31,32 @@ import com.kauailabs.navx.frc.AHRS;
     public static XboxController xboxController;
     public AHRS gyro2;
 
+    public Robot(){
+      // addPeriodic(() -> {
+      //   // SmartDashboard.putNumber("ADIS", gyro1.getXComplementaryAngle());
+      //   // System.out.println("ADIS" +  gyro1.getXComplementaryAngle());
+
+    
+
+      //   // System.out.println("Gyro 1: x: "+  
+      //   // new DecimalFormat("#.##").format(Math.abs(gyro1.getAccelX())) + "\t y: " + 
+      //   // new DecimalFormat("#.##").format(Math.abs(gyro1.getAccelY())) + "\t gyro2: x:" + 
+      //   // new DecimalFormat("#.##").format(Math.abs(gyro2.getWorldLinearAccelX())) + "\t y:" + 
+      //   // new DecimalFormat("#.##").format(Math.abs(gyro2.getWorldLinearAccelY())));
+
+
+
+      //   // gyro1.configDecRate(0);
+
+      //   // SmartDashboard.putNumber("accel2X", gyro2.getWorldLinearAccelX());
+      //   // SmartDashboard.putNumber("accel2Y", gyro2.getWorldLinearAccelY());
+
+
+      // }, 0.005, 9);
+
+
+    }
+
   //add periodic function figuring out swerve module angle
     private RobotContainer m_robotContainer;
 
@@ -40,6 +66,8 @@ import com.kauailabs.navx.frc.AHRS;
      */
     @Override
     public void robotInit() {
+      // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+      // autonomous chooser on the dashboard.
 
       m_robotContainer = new RobotContainer();
 
@@ -64,7 +92,7 @@ import com.kauailabs.navx.frc.AHRS;
       // commands, running already-scheduled commands, removing finished or interrupted commands,
       // and running subsystem periodic() methods.  This must be called from the robot's periodic
       // block in order for anything in the Command-based framework to work.
-      
+
 
       // if(Constants.camera.getLatestResult().hasTargets() && Constants.camera.getLatestResult().getBestTarget().getPoseAmbiguity() <= 0.2){
 
@@ -92,13 +120,17 @@ import com.kauailabs.navx.frc.AHRS;
     /** This function is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
+      CommandScheduler.getInstance().run();
     }
 
     @Override
     public void teleopInit() {
+      // This makes sure that the autonomous stops running when
+      // teleop starts running. If you want the autonomous to
+      // continue until interrupted by another command, remove
+      // this line or comment it out.
 
       Constants.arm.stageOne.reset();
-      Constants.arm.stageTwo.reset();
       try {
         gyro2 = new AHRS(); 
         gyro2.reset();
@@ -120,6 +152,13 @@ import com.kauailabs.navx.frc.AHRS;
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
+
+      // var result = Constants.camera.getLatestResult();
+
+      // if(result.hasTargets()){
+      //   System.out.println(result.getBestTarget().get());
+      // }
+
     }
 
     @Override
