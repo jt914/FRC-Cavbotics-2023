@@ -26,7 +26,7 @@ public class ArmCommand extends CommandBase {
 
   @Override
   public void initialize() {
-    remote = RobotContainer.xboxController2;
+    remote = RobotContainer.swerveController;
   }
 
   @Override

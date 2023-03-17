@@ -18,26 +18,11 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 
 
-/**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
- *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
- */
 public final class Constants {
   public static SwerveDrive swerveDrive;
   public static Arm arm = new Arm();
   public static Claw claw = new Claw(11);
-  public static double armSpeed = 0.36;
-  public static ADIS16470_IMU gyro = new ADIS16470_IMU();
-  public static final PhotonCamera camera = new PhotonCamera("USB_2.0_Camera"); 
 
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
-
-  }
 
 
 

@@ -80,7 +80,6 @@ public class SwerveModule extends SubsystemBase {
         tempAngle *= -1;
 
         
-        //System.out.println("newGet() " + tempAngle);
         return tempAngle;
     }
 
@@ -106,38 +105,7 @@ public class SwerveModule extends SubsystemBase {
         return temp;
     }
 
-    // convert current module position into 0 to 360
-    // public double getAngle() {
-    //     enc.update();
-    //     double temp = enc.getBigAngle();
-    //     temp += 90;
-
-    //     if (temp > 360){
-    //         temp = temp - 360;
-    //     }
-
-    //     if (temp <= 180){
-    //         temp *= -1;
-    //     } else{
-    //         temp = 360 - temp;
-    //     }
-    //     return temp;
-    // }
-
-    // public double convertedAngle() {
-    //     double temp = enc.getBigAngle();
-    //     if (temp > 180)
-    //         temp = -(360 - temp);
-
-    //     return temp;
-    // }
-    // long lastRun;
-    // public void update() {
-    //     long t1 = System.currentTimeMillis();
-    //     enc.update();
-    //     SmartDashboard.putNumber("timer", lastRun-t1);
-    //     lastRun = t1;
-    // }
+  
 
     public void setCurrentAngle(){
         double temp = Math.toRadians(getAngle());
@@ -159,11 +127,6 @@ public class SwerveModule extends SubsystemBase {
     // method to set the module angle and drive speed
     public void setModule(Rotation2d angle, double speed) {
 
-        
-            
-                // SmartDashboard.putNumber("Module " + turn.getDeviceId(), this.getAngle());
-                // SmartDashboard.putNumber("Module " + turn.getDeviceId() + " desiredAngle", angle.getDegrees());
-                // SmartDashboard.putNumber("Module " + turn.getDeviceId() + " speed", speed);
 
             double setPoint = cont.calculate(getAngle(), angle.getDegrees());
             if (setPoint < 0){
