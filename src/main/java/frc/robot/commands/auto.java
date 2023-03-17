@@ -29,6 +29,7 @@ public class auto extends CommandBase {
         swerveDrive = swerve;
         addRequirements(swerveDrive);
         this.arm = arm;
+        this.claw = claw;
         swerveDrive.m_frontRightLocation.reset();
         swerveDrive.m_frontLeftLocation.reset();
         swerveDrive.m_backLeftLocation.reset();
@@ -46,35 +47,35 @@ public class auto extends CommandBase {
         
         switch(step){
              
-            case 0:
-            if(claw.getAngle() <= 20){
-                step = 1;
-            }
-            claw.m_pidController.setReference(20, ControlType.kPosition);
+            // case 0:
+            // if(claw.getAngle() <= 2){
+            //     step = 1;
+            // }
+            // claw.m_pidController.setReference(0, ControlType.kPosition);
+
+            // case 1:
+            // if(arm.stageOne.getAngle() >= 0.48){
+            //     step = 2;
+            // }
+            // arm.stageOne.m_pidController.setReference(0.5, ControlType.kPosition);
+
+
+            // case 2:
+
+            // if(arm.stageTwo.getAngle() <= 20){
+            //     step = 3;
+            // }
+
+            // arm.stageTwo.m_pidController.setReference(20.5, ControlType.kPosition);
+
+            // case 3:
+            // if(claw.getAngle() >= -25){
+            //     step = 4;
+            // }
+            // claw.m_pidController.setReference(-25, ControlType.kPosition);
+
 
             case 1:
-            if(arm.stageOne.getAngle() >= 0.5){
-                step = 2;
-            }
-            arm.stageOne.m_pidController.setReference(0.5, ControlType.kPosition);
-
-
-            case 2:
-
-            if(arm.stageTwo.getAngle() <= 40){
-                step = 3;
-            }
-
-            arm.stageTwo.m_pidController.setReference(40, ControlType.kPosition);
-
-            case 3:
-            if(claw.getAngle() >= 20){
-                step = 4;
-            }
-            claw.m_pidController.setReference(20, ControlType.kPosition);
-
-
-            case 4:
             if(swerveDrive.getDriveDistance() < 100){
                 step = 9;
             }

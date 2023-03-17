@@ -31,7 +31,7 @@ public class Claw extends SubsystemBase {
     m_pidController = motor.getPIDController();
     currAngle = 0;
     
-    kP = 0.4; 
+    kP = 3; 
     kI = 0;
     kD = 0; 
     kIz = 0; 

@@ -75,7 +75,7 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    // int routine = (int)(NetworkTableInstance.getDefault().getTable("/datatable").getEntry("routine").getDouble(0));
+      // int routine = (int)(NetworkTableInstance.getDefault().getTable("/datatable").getEntry("routine").getDouble(0));
       return new auto(Constants.swerveDrive, Constants.arm, Constants.claw);
   
 

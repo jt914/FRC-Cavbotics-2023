@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -16,39 +17,36 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmStage extends SubsystemBase {
     public CANSparkMax motor;
-    public Rotation2d currentAngle;
-    public Rotation2d targetAngle;
     public RelativeEncoder enc;
+    public double currAngle;
     public SparkMaxPIDController m_pidController;
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
-    public double rotations;
-  
-
-
+    public final double max_increment = 100;
 
   /** Creates a new ExampleSubsystem. */
   public ArmStage(int id) {
     motor = new CANSparkMax(id, MotorType.kBrushless);
     motor.enableVoltageCompensation(12);
     enc = motor.getEncoder();
-    // enc.setPositionConversionFactor(1);
-    motor.setSmartCurrentLimit(80, 80);
     m_pidController = motor.getPIDController();
-    rotations = 0;
-
+    currAngle = 0;
     
-    kP = 0.03; 
+    kP = 0.4; 
     kI = 0;
     kD = 0; 
     kIz = 0; 
     kFF = .00001; 
+    kMaxOutput = 1.0/7; 
+    kMinOutput = -1.0/7;
 
-    m_pidController.setP(kP);
+    m_pidController.setP(kP); 
     m_pidController.setI(kI);
     m_pidController.setD(kD);
     m_pidController.setIZone(kIz);
     m_pidController.setFF(kFF);
-    m_pidController.setOutputRange((1.0/6), (1.0/6)); 
+    m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+    enc.setPosition(0);
+  }
 
   public boolean incrementUp(double mult){
     double currPos = getAngle();
@@ -89,13 +87,10 @@ public class ArmStage extends SubsystemBase {
   }
 
   public void reset(){
-    rotations = enc.getPosition();
-    m_pidController.setReference(rotations, CANSparkMax.ControlType.kPosition);
-    System.out.println("enc.getPos" + enc.getPosition() + "rotations" + rotations);
-
-    System.out.println(rotations);
+    enc.setPosition(0);
   }
 
-
-
+  public void updatePos(){
+    currAngle = enc.getPosition();
+  }
 }
