@@ -20,7 +20,7 @@ public class SwerveCommand extends CommandBase {
   @Override
   public void initialize() {
     remote = RobotContainer.xboxController;
-
+    swerveDrive.setCoast();
   }
 
   @Override
@@ -45,6 +45,13 @@ public class SwerveCommand extends CommandBase {
     }else{
       Constants.swerveDrive.MAX_SPEED = 2;
     }
+
+    if(remote.getBButtonPressed()){
+      swerveDrive.updatePeriodic(0.01, 0, 0);
+      swerveDrive.setBrake();
+    }
+
+    
   }
 
 

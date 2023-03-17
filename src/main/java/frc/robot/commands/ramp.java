@@ -10,11 +10,12 @@ import frc.robot.Constants;
 
 import frc.robot.subsystems.*;
 
-public class midRamp extends CommandBase {
+public class ramp extends CommandBase {
     private SwerveDrive swerveDrive;
     private int step;
+    public long time;
 
-    public midRamp(SwerveDrive swerve){
+    public ramp(SwerveDrive swerve){
         swerveDrive = swerve;
         addRequirements(swerveDrive);
         swerveDrive.m_frontRightLocation.reset();
@@ -27,6 +28,8 @@ public class midRamp extends CommandBase {
     @Override
     public void initialize(){
         System.out.println("initialize");
+        time = System.currentTimeMillis();
+
 
 
 
@@ -37,30 +40,43 @@ public class midRamp extends CommandBase {
     @Override
     public void execute(){
         System.out.println("working");
+
         
         
         
         switch(step){
             
+            
             case 0:
             if(Math.abs(Constants.gyro.getXComplementaryAngle()) > 10){
                 step = 1;
+                time = System.currentTimeMillis();
+
             }
 
             else{
-                swerveDrive.updatePeriodic(0, -0.3,0);
+                swerveDrive.updatePeriodic(0, 0.15*((System.currentTimeMillis() - time)/500),0);
             }
             break;  
 
             case 1:
-            if(Math.abs(Constants.gyro.getXComplementaryAngle()) < 5){
-                step = 9;
+            if((System.currentTimeMillis() - time) < 1500 || Math.abs(Constants.gyro.getXComplementaryAngle()) < 5){
+                step = 2;
             }
 
             else{
-                swerveDrive.updatePeriodic(0, -0.2*((Math.abs(Constants.gyro.getXComplementaryAngle())/20)),0);
+                swerveDrive.updatePeriodic(0, 0.5*((Math.abs(Constants.gyro.getXComplementaryAngle())/20)),0);
             }
             break; 
+
+            case 2:{
+                if(Math.abs(Constants.gyro.getXComplementaryAngle()) > 5){
+                    swerveDrive.updatePeriodic(0, -0.1*((Math.abs(Constants.gyro.getXComplementaryAngle())/20)),0);
+                }
+                else{
+                    step = 9;
+                }
+            }
             
 
 

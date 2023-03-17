@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.*;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -30,8 +31,10 @@ public class SwerveModule extends SubsystemBase {
         double d = 0.00001;
         turn = new CANSparkMax(turnComponent, MotorType.kBrushless);
         drive = new CANSparkMax(driveComponent, MotorType.kBrushless);
-        drive.setClosedLoopRampRate(0);
-        drive.setOpenLoopRampRate(0);
+        drive.setClosedLoopRampRate(1);
+        drive.setOpenLoopRampRate(1);
+        drive.setIdleMode(IdleMode.kCoast);
+        turn.setIdleMode(IdleMode.kCoast);
         enc = turn.getEncoder();
         enc.setPositionConversionFactor(1);
         driveEnc = drive.getEncoder();
@@ -60,6 +63,7 @@ public class SwerveModule extends SubsystemBase {
         cont.enableContinuousInput(-180, 180);
 
     }
+
 
     
 
@@ -139,6 +143,18 @@ public class SwerveModule extends SubsystemBase {
         double temp = Math.toRadians(getAngle());
         currentAngle = new Rotation2d(temp);
     }
+
+    public void setBrake(){
+        turn.setIdleMode(IdleMode.kBrake);
+        drive.setIdleMode(IdleMode.kBrake);
+
+    }
+    public void setCoast(){
+            turn.setIdleMode(IdleMode.kCoast);
+            drive.setIdleMode(IdleMode.kCoast);
+
+    }
+
  
     // method to set the module angle and drive speed
     public void setModule(Rotation2d angle, double speed) {

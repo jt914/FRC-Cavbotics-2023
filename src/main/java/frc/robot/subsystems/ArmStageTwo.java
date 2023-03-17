@@ -15,7 +15,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Claw extends SubsystemBase {
+public class ArmStageTwo extends SubsystemBase {
     public CANSparkMax motor;
     public RelativeEncoder enc;
     public double currAngle;
@@ -24,7 +24,7 @@ public class Claw extends SubsystemBase {
     public final double max_increment = 100;
 
   /** Creates a new ExampleSubsystem. */
-  public Claw(int id) {
+  public ArmStageTwo(int id) {
     motor = new CANSparkMax(id, MotorType.kBrushless);
     motor.enableVoltageCompensation(12);
     enc = motor.getEncoder();
@@ -48,29 +48,21 @@ public class Claw extends SubsystemBase {
     enc.setPosition(0);
   }
 
-  public boolean open(){
+  public void incrementUp(double mult){
     double currPos = getAngle();
-    if(currPos < 4.76){
-      m_pidController.setReference(currPos + 0.4, ControlType.kPosition);
-    return true;  
-    }
+    if(currPos < 13.5){
+      m_pidController.setReference(currPos + (0.4*mult), ControlType.kPosition);
+      }
       else{
-        m_pidController.setReference(4.76, ControlType.kPosition);
-        return false;
+        m_pidController.setReference(13.5, ControlType.kPosition);
       }
 
   }
 
-  public boolean close(){
+  public void incrementDown(double mult){
     double currPos = getAngle();
-    if(currPos > -7.7){
-      m_pidController.setReference(currPos - 0.4, ControlType.kPosition);
-    return true;  
-    }
-      else{
-        m_pidController.setReference(-7.7, ControlType.kPosition);
-        return false;
-      }
+    System.out.println(currPos);
+      m_pidController.setReference(currPos - (0.4*mult), ControlType.kPosition);
   
   }
 
