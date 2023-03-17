@@ -34,13 +34,11 @@ public class auto extends CommandBase {
         swerveDrive.m_frontLeftLocation.reset();
         swerveDrive.m_backLeftLocation.reset();
         swerveDrive.m_backRightLocation.reset();
-        step = 1;
+        step = 0;
     }
 
     @Override
     public void initialize(){
-        time = System.currentTimeMillis();
-
 
     }
     @Override
@@ -78,10 +76,10 @@ public class auto extends CommandBase {
 
 
             case 1:
-            if((System.currentTimeMillis() - time) > 1000){
+            if(swerveDrive.getDriveDistance() < 100){
                 step = 9;
             }
-            swerveDrive.updatePeriodic(0, -0.2, 0);
+            swerveDrive.updatePeriodic(0, 0.2, 0);
 
 
 
