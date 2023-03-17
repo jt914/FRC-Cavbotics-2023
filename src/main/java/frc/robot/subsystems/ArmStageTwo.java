@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ArmStageTwo extends SubsystemBase {
     public CANSparkMax motor;
@@ -31,7 +32,7 @@ public class ArmStageTwo extends SubsystemBase {
     m_pidController = motor.getPIDController();
     currAngle = 0;
     
-    kP = 0.4; 
+    kP = 3; 
     kI = 0;
     kD = 0; 
     kIz = 0; 
@@ -50,18 +51,17 @@ public class ArmStageTwo extends SubsystemBase {
 
   public void incrementUp(double mult){
     double currPos = getAngle();
-    if(currPos < 13.5){
+    if(currPos < 21.5){
       m_pidController.setReference(currPos + (0.4*mult), ControlType.kPosition);
-      }
+    }
       else{
-        m_pidController.setReference(13.5, ControlType.kPosition);
+        m_pidController.setReference(21.5, ControlType.kPosition);
       }
 
   }
 
   public void incrementDown(double mult){
     double currPos = getAngle();
-    System.out.println(currPos);
       m_pidController.setReference(currPos - (0.4*mult), ControlType.kPosition);
   
   }

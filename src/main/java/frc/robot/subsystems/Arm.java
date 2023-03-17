@@ -38,5 +38,9 @@ public class Arm extends SubsystemBase{
     stageTwo.stop();
   }
 
+  public double getAngle() {
+    return 0;
+  }
+
 
 }

@@ -57,7 +57,7 @@ import com.kauailabs.navx.frc.AHRS;
       SmartDashboard.putNumber("lower", Constants.arm.stageOne.getAngle());
       SmartDashboard.putNumber("upper", Constants.arm.stageTwo.getAngle());
       SmartDashboard.putNumber("Claw", Constants.claw.getAngle());
-
+      
       CommandScheduler.getInstance().run();
 
       // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled

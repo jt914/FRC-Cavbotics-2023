@@ -48,29 +48,14 @@ public class Claw extends SubsystemBase {
     enc.setPosition(0);
   }
 
-  public boolean open(){
-    double currPos = getAngle();
-    if(currPos < 4.76){
-      m_pidController.setReference(currPos + 0.4, ControlType.kPosition);
-    return true;  
-    }
-      else{
-        m_pidController.setReference(4.76, ControlType.kPosition);
-        return false;
-      }
+  public void open(){
+    m_pidController.setReference(-25, ControlType.kPosition);
 
   }
 
-  public boolean close(){
-    double currPos = getAngle();
-    if(currPos > -7.7){
-      m_pidController.setReference(currPos - 0.4, ControlType.kPosition);
-    return true;  
-    }
-      else{
-        m_pidController.setReference(-7.7, ControlType.kPosition);
-        return false;
-      }
+  public void close(){
+    m_pidController.setReference(0, ControlType.kPosition);
+
   
   }
 

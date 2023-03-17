@@ -2,6 +2,13 @@ package frc.robot.commands;
 
 import java.lang.invoke.ConstantCallSite;
 
+import org.photonvision.PhotonUtils;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
+import com.revrobotics.CANSparkMax.ControlType;
+
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,14 +17,18 @@ import frc.robot.Constants;
 
 import frc.robot.subsystems.*;
 
-public class ramp extends CommandBase {
+public class auto extends CommandBase {
     private SwerveDrive swerveDrive;
+    private Arm arm;
     private int step;
     public long time;
+    private Claw claw;
 
-    public ramp(SwerveDrive swerve){
+
+    public auto(SwerveDrive swerve, Arm arm, Claw claw){
         swerveDrive = swerve;
         addRequirements(swerveDrive);
+        this.arm = arm;
         swerveDrive.m_frontRightLocation.reset();
         swerveDrive.m_frontLeftLocation.reset();
         swerveDrive.m_backLeftLocation.reset();
@@ -27,57 +38,47 @@ public class ramp extends CommandBase {
 
     @Override
     public void initialize(){
-        System.out.println("initialize");
-        time = System.currentTimeMillis();
 
-
-
-
-        //claw.reset
-        //SmartDashboard.putNumber("Auto works", 1);
-        //System.out.println("Wotks 2");
     }
     @Override
     public void execute(){
-        System.out.println("working");
 
-        
-        
         
         switch(step){
-            
-            
+             
             case 0:
-            if(Math.abs(Constants.gyro.getXComplementaryAngle()) > 10){
+            if(claw.getAngle() <= 20){
                 step = 1;
-                time = System.currentTimeMillis();
-
             }
-
-            else{
-                swerveDrive.updatePeriodic(0, 0.15*((System.currentTimeMillis() - time)/500),0);
-            }
-            break;  
+            claw.m_pidController.setReference(20, ControlType.kPosition);
 
             case 1:
-            if((System.currentTimeMillis() - time) < 1500 || Math.abs(Constants.gyro.getXComplementaryAngle()) < 5){
+            if(arm.stageOne.getAngle() >= 0.5){
                 step = 2;
             }
+            arm.stageOne.m_pidController.setReference(0.5, ControlType.kPosition);
 
-            else{
-                swerveDrive.updatePeriodic(0, 0.5*((Math.abs(Constants.gyro.getXComplementaryAngle())/20)),0);
-            }
-            break; 
 
-            case 2:{
-                if(Math.abs(Constants.gyro.getXComplementaryAngle()) > 5){
-                    swerveDrive.updatePeriodic(0, -0.1*((Math.abs(Constants.gyro.getXComplementaryAngle())/20)),0);
-                }
-                else{
-                    step = 9;
-                }
+            case 2:
+
+            if(arm.stageTwo.getAngle() <= 40){
+                step = 3;
             }
-            
+
+            arm.stageTwo.m_pidController.setReference(40, ControlType.kPosition);
+
+            case 3:
+            if(claw.getAngle() >= 20){
+                step = 4;
+            }
+            claw.m_pidController.setReference(20, ControlType.kPosition);
+
+
+            case 4:
+            if(swerveDrive.getDriveDistance() < 100){
+                step = 9;
+            }
+            swerveDrive.updatePeriodic(0, 0.2, 0);
 
 
 
