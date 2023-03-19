@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ClawCommand extends CommandBase {
   private Claw claw;
   private static XboxController remote;
+  boolean coast = false;
 
 
   public ClawCommand(Claw claw) {
@@ -32,15 +33,22 @@ public class ClawCommand extends CommandBase {
 
   @Override
   public void execute() {
-
     if(remote.getLeftBumperPressed()){
         claw.close();
 
     } else if (remote.getRightBumperPressed()){
         claw.open();
+    } else if (remote.getBButtonPressed())
+    {
+        claw.closeCone();
+    }
+    else if(remote.getXButtonPressed()){
+        System.out.println("X");
+
+    
+
     }
   }
-
   @Override
   public void end(boolean interrupted) {
     // NetworkTableInstance.getDefault().getTable("/limelight-sam").getEntry("ledMode").setDouble(1);

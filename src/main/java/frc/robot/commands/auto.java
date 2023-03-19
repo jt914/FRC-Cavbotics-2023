@@ -34,65 +34,90 @@ public class auto extends CommandBase {
         swerveDrive.m_frontLeftLocation.reset();
         swerveDrive.m_backLeftLocation.reset();
         swerveDrive.m_backRightLocation.reset();
-        step = 1;
+        step = 0;
     }
 
     @Override
     public void initialize(){
-        time = System.currentTimeMillis();
 
 
     }
     @Override
     public void execute(){
 
-        
-        switch(step){
-             
-            // case 0:
-            // if(claw.getAngle() <= 2){
-            //     step = 1;
-            // }
-            // claw.m_pidController.setReference(0, ControlType.kPosition);
-
-            // case 1:
-            // if(arm.stageOne.getAngle() >= 0.48){
-            //     step = 2;
-            // }
-            // arm.stageOne.m_pidController.setReference(0.5, ControlType.kPosition);
-
-
-            // case 2:
-
-            // if(arm.stageTwo.getAngle() <= 20){
-            //     step = 3;
-            // }
-
-            // arm.stageTwo.m_pidController.setReference(20.5, ControlType.kPosition);
-
-            // case 3:
-            // if(claw.getAngle() >= -25){
-            //     step = 4;
-            // }
-            // claw.m_pidController.setReference(-25, ControlType.kPosition);
-
-
-            case 1:
-            if((System.currentTimeMillis() - time) > 1000){
-                step = 9;
+    
+            if(step == 0){
+            if(claw.getAngle() <= -19){
+                System.out.println("pased step 0");
+                step = 1;
             }
-            swerveDrive.updatePeriodic(0, -0.2, 0);
+            claw.m_pidController.setReference(-23, ControlType.kPosition);
+            }
+            if(step == 1){
+            if(arm.stageTwo.getAngle() >= 14.6){
+                step = 2;
+                System.out.println("pased step 1");
+
+            }
+            arm.stageTwo.m_pidController.setReference(14.7, ControlType.kPosition);
+        }
+
+            else if(step == 2){
+
+            if(arm.stageOne.getAngle() <= -10.9){
+                step = 3;
+                System.out.println("pased step 2");
+            }
+            
+
+            arm.stageOne.m_pidController.setReference(-11, ControlType.kPosition);
+        }
+            else if(step == 3){
+            if(claw.getAngle() >= -6){
+                step = 4;
+                System.out.println("pased step 3");
 
 
 
-            default:
-            step = 9;
-            break;
-        }   
+            }
+            claw.open();
+        }
+
+        else if(step == 4){
+            if(arm.stageOne.getAngle() >= -2){
+                step = 5;
+                System.out.println("pased step 2");
+            }
+            
+
+            arm.stageOne.m_pidController.setReference(0, ControlType.kPosition);
+
+
+        }
+        else if(step == 5){
+            if(arm.stageTwo.getAngle() >= -4){
+                step = 6;
+                System.out.println("pased step 1");
+                time = System.currentTimeMillis();
+
+
+            }
+            arm.stageTwo.m_pidController.setReference(0, ControlType.kPosition);
+        }
+
+
+            else if(step == 6){
+                swerveDrive.updatePeriodic(0, .4, 0);
+                if((System.currentTimeMillis() - time) > 7000){
+                    swerveDrive.stopAll();
+                    step = 9;
+                }
+        }
     }
 
     @Override
     public void end(boolean interrupted){
+        swerveDrive.stopAll();
 
     }
 
@@ -102,6 +127,7 @@ public class auto extends CommandBase {
         
 
         return step >= 9;
+
     }
 
     

@@ -7,6 +7,8 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.SwerveDrive;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.ControlType;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.XboxController;
@@ -51,6 +53,11 @@ public class ArmCommand extends CommandBase {
     } else if (remote.getRightY() < 0 && Math.abs(remote.getRightY()) > 0.15){
       arm.stageTwo.incrementUp(1.2);
     }
+    // if(remote.getXButtonPressed()){
+    //   arm.stageOne.m_pidController.setReference(0, ControlType.kPosition);
+    //   arm.stageTwo.m_pidController.setReference(2, ControlType.kPosition);
+    // }
+
   }
 
   @Override

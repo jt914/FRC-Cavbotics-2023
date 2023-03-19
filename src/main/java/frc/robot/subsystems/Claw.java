@@ -31,7 +31,7 @@ public class Claw extends SubsystemBase {
     m_pidController = motor.getPIDController();
     currAngle = 0;
     
-    kP = 3; 
+    kP = 2; 
     kI = 0;
     kD = 0; 
     kIz = 0; 
@@ -49,15 +49,22 @@ public class Claw extends SubsystemBase {
   }
 
   public void open(){
-    m_pidController.setReference(-25, ControlType.kPosition);
+    m_pidController.setReference(-5, ControlType.kPosition);
 
   }
 
   public void close(){
-    m_pidController.setReference(0, ControlType.kPosition);
+    m_pidController.setReference(-22, ControlType.kPosition);  
+  }
+  public void closeCone(){
+    m_pidController.setReference(-28, ControlType.kPosition);
+  }
+
+  // public void closeClaw(){
+  //   m_pidController.setReference()
+  // }
 
   
-  }
 
   public double getAngle(){
     return enc.getPosition();
@@ -82,4 +89,5 @@ public class Claw extends SubsystemBase {
   public void updatePos(){
     currAngle = enc.getPosition();
   }
+  
 }

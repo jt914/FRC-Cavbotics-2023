@@ -5,6 +5,8 @@ import frc.robot.RobotContainer;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.*;
+import com.revrobotics.CANSparkMax;
+
 
 
 //not currently in use because of the way the axis are controlled, but
@@ -15,6 +17,7 @@ public class Arm extends SubsystemBase{
 
   public ArmStage stageOne;
   public ArmStageTwo stageTwo;
+
 
 
   public Arm() {
@@ -41,6 +44,7 @@ public class Arm extends SubsystemBase{
   public double getAngle() {
     return 0;
   }
+  
 
 
 }

@@ -50,22 +50,22 @@ public class ArmStage extends SubsystemBase {
 
   public boolean incrementUp(double mult){
     double currPos = getAngle();
-    if(currPos < 0.5){
+    if(currPos < -1.5){
       m_pidController.setReference(currPos + (0.4*mult), ControlType.kPosition);
     return true;  
     }else{
-      m_pidController.setReference(0.5, ControlType.kPosition);
+      //m_pidController.setReference(-1.5, ControlType.kPosition);
       return false;
     }
   }
 
   public boolean incrementDown(double mult){
     double currPos = getAngle();
-    if(currPos > -16.7){
+    if(currPos > -11.3){
       m_pidController.setReference(currPos - (0.4*mult), ControlType.kPosition);
     return true;  
     }else{
-      m_pidController.setReference(-16.7, ControlType.kPosition);
+      m_pidController.setReference(-11.3, ControlType.kPosition);
       return false;
     } 
   }

@@ -10,7 +10,10 @@ import org.photonvision.PhotonUtils;
 
 import com.kauailabs.navx.frc.AHRS;
 
-  import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoSink;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
   import edu.wpi.first.wpilibj.TimedRobot;
   import edu.wpi.first.wpilibj.XboxController;
   import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,6 +43,7 @@ import com.kauailabs.navx.frc.AHRS;
      */
     @Override
     public void robotInit() {
+      CameraServer.startAutomaticCapture();
       Constants.arm.stageOne.reset();
       Constants.arm.stageTwo.reset();
 
@@ -62,6 +66,9 @@ import com.kauailabs.navx.frc.AHRS;
       SmartDashboard.putNumber("Claw", Constants.claw.getAngle());
       
       CommandScheduler.getInstance().run();
+      SmartDashboard.putNumber("temps", Constants.claw.motor.getMotorTemperature());
+      SmartDashboard.putNumber("arm1", Constants.arm.stageOne.motor.getMotorTemperature());
+      SmartDashboard.putNumber("arm2", Constants.arm.stageTwo.motor.getMotorTemperature());
 
       // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
       // commands, running already-scheduled commands, removing finished or interrupted commands,
