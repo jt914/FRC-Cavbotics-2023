@@ -52,7 +52,7 @@ public class ArmStageTwo extends SubsystemBase {
   public void incrementUp(double mult){
     double currPos = getAngle();
     if(currPos < 21.5){
-      m_pidController.setReference(currPos + (0.4*mult), ControlType.kPosition);
+      m_pidController.setReference(currPos + (0.5*mult), ControlType.kPosition);
     }
       else{
         m_pidController.setReference(21.5, ControlType.kPosition);
@@ -62,7 +62,7 @@ public class ArmStageTwo extends SubsystemBase {
 
   public void incrementDown(double mult){
     double currPos = getAngle();
-      m_pidController.setReference(currPos - (0.4*mult), ControlType.kPosition);
+      m_pidController.setReference(currPos - (0.5*mult), ControlType.kPosition);
   
   }
 

@@ -54,7 +54,7 @@ public class ArmStage extends SubsystemBase {
       m_pidController.setReference(currPos + (0.4*mult), ControlType.kPosition);
     return true;  
     }else{
-      //m_pidController.setReference(-1.5, ControlType.kPosition);
+      m_pidController.setReference(-1.5, ControlType.kPosition);
       return false;
     }
   }
