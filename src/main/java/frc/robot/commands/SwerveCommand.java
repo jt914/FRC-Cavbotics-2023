@@ -5,69 +5,81 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SwerveCommand extends CommandBase {
-  private static SwerveDrive swerveDrive;
-  private static XboxController remote;
+    private static SwerveDrive swerveDrive;
+    private static XboxController remote;
 
-  public SwerveCommand(SwerveDrive drive) {
-    swerveDrive = drive;
-  }
-
-  @Override
-  public void initialize() {
-    remote = RobotContainer.xboxController;
-    swerveDrive.setCoast();
-  }
-
-  @Override
-  public void execute() {
-
-
-
-    if (Math.abs(remote.getLeftX()) >= 0.1 || Math.abs(remote.getLeftY()) >= 0.1
-        || Math.abs(remote.getRightX()) >= 0.1) {
-      swerveDrive.updatePeriodic(remote.getLeftX(), remote.getLeftY(), remote.getRightX());
-    } else {
-      swerveDrive.stopAll();
+    public SwerveCommand(SwerveDrive drive) {
+        swerveDrive = drive;
     }
 
-
-    // if(remote.getXButtonPressed()){
-
-    // if(Constants.swerveDrive.MAX_SPEED == 2){
-    //   Constants.swerveDrive.MAX_SPEED = 0.2;
-    // }else{
-    //   Constants.swerveDrive.MAX_SPEED = 2;
-    // }
-
-    if(remote.getBButtonPressed()){
-      swerveDrive.updatePeriodic(0.01, 0, 0);
-      swerveDrive.setBrake();
-    }
-    if(remote.getXButtonPressed()){
-      swerveDrive.updatePeriodic(-0.01, 0, 0);
-      swerveDrive.setCoast();
+    @Override
+    public void initialize() {
+        remote = RobotContainer.xboxController;
+        swerveDrive.setCoast();
     }
 
-    
-  }
+    private double applyCurve(double joystickPosition, double threshold, int exponent) {
+        if (joystickPosition > 0) {
+            return (1 - threshold) * Math.pow(joystickPosition, exponent) + threshold;
+        } else if (joystickPosition < 0) {
+            return (1 - threshold) * Math.pow(joystickPosition, exponent) - threshold;
+        }
+        return 0;
+    }
 
+    private double deadzone(double value, double deadzone) {
+        if (Math.abs(value) < deadzone) {
+            return 0;
+        }
+        return value;
+    }
 
+    @Override
+    public void execute() {
+        double forward = -remote.getRawAxis(1);
+        double strafe = -remote.getRawAxis(0);
+        double rotation = -remote.getRawAxis(4);
 
+        double deadzoneValue = 0.1;
+        forward = deadzone(forward, deadzoneValue);
+        strafe = deadzone(strafe, deadzoneValue);
+        rotation = deadzone(rotation, deadzoneValue);
 
-  @Override
-  public void end(boolean interrupted) {
-    // NetworkTableInstance.getDefault().getTable("/limelight-sam").getEntry("ledMode").setDouble(1);
-    NetworkTableInstance.getDefault().getTable("/datatable").getEntry("SwerveCommand").setBoolean(false);
-    swerveDrive.stopAll();
-  }
+        double torqueResistanceThreshold = 0.1;
+        int curveExponent = 3;
+        forward = applyCurve(forward, torqueResistanceThreshold, curveExponent);
+        strafe = applyCurve(strafe, torqueResistanceThreshold, curveExponent);
+        rotation = applyCurve(rotation, torqueResistanceThreshold, curveExponent);
 
-  @Override
-  public boolean isFinished() {
-    return false; 
-  }
+        if (Math.abs(forward) >= 0.1 || Math.abs(strafe) >= 0.1 || Math.abs(rotation) >= 0.1) {
+            swerveDrive.updatePeriodic(strafe, forward, rotation);
+        } else {
+            swerveDrive.stopAll();
+        }
+
+        if (remote.getBButtonPressed()) {
+            swerveDrive.updatePeriodic(0.01, 0, 0);
+            swerveDrive.setBrake();
+        }
+        if (remote.getXButtonPressed()) {
+            swerveDrive.updatePeriodic(-0.01, 0, 0);
+            swerveDrive.setCoast();
+        }
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        NetworkTableInstance.getDefault().getTable("/datatable").getEntry("SwerveCommand").setBoolean(false);
+        swerveDrive.stopAll();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

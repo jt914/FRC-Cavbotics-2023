@@ -43,9 +43,7 @@ public class ClawCommand extends CommandBase {
         claw.closeCone();
     }
     else if(remote.getXButtonPressed()){
-        System.out.println("X");
-
-    
+      claw.enc.setPosition(0);
 
     }
   }
