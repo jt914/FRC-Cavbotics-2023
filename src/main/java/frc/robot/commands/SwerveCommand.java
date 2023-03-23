@@ -45,16 +45,13 @@ public class SwerveCommand extends CommandBase {
         double strafe = -remote.getRawAxis(0);
         double rotation = -remote.getRawAxis(4);
 
-        double deadzoneValue = 0.1;
-        forward = deadzone(forward, deadzoneValue);
-        strafe = deadzone(strafe, deadzoneValue);
-        rotation = deadzone(rotation, deadzoneValue);
+        forward = deadzone(forward, 0.1);
+        strafe = deadzone(strafe, 0.1);
+        rotation = deadzone(rotation, 0.1);
 
-        double torqueResistanceThreshold = 0.1;
-        int curveExponent = 3;
-        forward = applyCurve(forward, torqueResistanceThreshold, curveExponent);
-        strafe = applyCurve(strafe, torqueResistanceThreshold, curveExponent);
-        rotation = applyCurve(rotation, torqueResistanceThreshold, curveExponent);
+        forward = applyCurve(forward, 0.1, 3);
+        strafe = applyCurve(strafe, 0.1, 3);
+        rotation = applyCurve(rotation, 0.1, 3);
 
         if (Math.abs(forward) >= 0.1 || Math.abs(strafe) >= 0.1 || Math.abs(rotation) >= 0.1) {
             swerveDrive.updatePeriodic(strafe, forward, rotation);
