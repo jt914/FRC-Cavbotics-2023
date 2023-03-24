@@ -31,8 +31,8 @@ public class SwerveModule extends SubsystemBase {
         double d = 0.00001;
         turn = new CANSparkMax(turnComponent, MotorType.kBrushless);
         drive = new CANSparkMax(driveComponent, MotorType.kBrushless);
-        drive.setClosedLoopRampRate(1);
-        drive.setOpenLoopRampRate(1);
+        drive.setClosedLoopRampRate(.5);
+        drive.setOpenLoopRampRate(.5);
         drive.setIdleMode(IdleMode.kCoast);
         turn.setIdleMode(IdleMode.kCoast);
         enc = turn.getEncoder();

@@ -107,8 +107,6 @@ public class SwerveDrive extends SubsystemBase{
   }
   public void updatePeriodic(double translateY, double translateX, double yaw) {
 
-    // speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translateY * MAX_SPEED, translateX * MAX_SPEED,
-    //     yaw * MAX_RADIANS, new Rotation2d(Math.toRadians(getGyroAngle())));
     speeds = new ChassisSpeeds(translateY * MAX_SPEED, translateX * MAX_SPEED, yaw * MAX_RADIANS);
 
     moduleState = kinematics.toSwerveModuleStates(speeds);
@@ -120,20 +118,20 @@ public class SwerveDrive extends SubsystemBase{
 
     
 
-    m_frontRightLocation.setModule(optimized1.angle, optimized1.speedMetersPerSecond);
-    m_frontLeftLocation.setModule(optimized2.angle, optimized2.speedMetersPerSecond);
-    m_backRightLocation.setModule(optimized4.angle, optimized4.speedMetersPerSecond);
-    m_backLeftLocation.setModule(optimized3.angle, optimized3.speedMetersPerSecond);
+    // m_frontRightLocation.setModule(optimized1.angle, optimized1.speedMetersPerSecond);
+    // m_frontLeftLocation.setModule(optimized2.angle, optimized2.speedMetersPerSecond);
+    // m_backRightLocation.setModule(optimized4.angle, optimized4.speedMetersPerSecond);
+    // m_backLeftLocation.setModule(optimized3.angle, optimized3.speedMetersPerSecond);
 
-    //     m_frontRightLocation.setModule(moduleState[0].angle, optimized1.speedMetersPerSecond);
-    // if(Math.abs(remote1.getRightX()) >= 0.1){
-    //   m_frontLeftLocation.setModule(moduleState[1].angle, -optimized2.speedMetersPerSecond);
-    //   m_backRightLocation.setModule(moduleState[3].angle, -optimized4.speedMetersPerSecond);
-    // } else {
-    //   m_frontLeftLocation.setModule(moduleState[1].angle, optimized2.speedMetersPerSecond);
-    //   m_backRightLocation.setModule(moduleState[3].angle, optimized4.speedMetersPerSecond);
-    // }
-    // m_backLeftLocation.setModule(moduleState[2].angle, optimized3.speedMetersPerSecond);
+        m_frontRightLocation.setModule(moduleState[0].angle, optimized1.speedMetersPerSecond);
+    if(Math.abs(remote1.getRightX()) >= 0.1){
+      m_frontLeftLocation.setModule(moduleState[1].angle, -optimized2.speedMetersPerSecond);
+      m_backRightLocation.setModule(moduleState[3].angle, -optimized4.speedMetersPerSecond);
+    } else {
+      m_frontLeftLocation.setModule(moduleState[1].angle, optimized2.speedMetersPerSecond);
+      m_backRightLocation.setModule(moduleState[3].angle, optimized4.speedMetersPerSecond);
+    }
+    m_backLeftLocation.setModule(moduleState[2].angle, optimized3.speedMetersPerSecond);
 
 
 

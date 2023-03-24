@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -39,6 +40,8 @@ public class ArmStageTwo extends SubsystemBase {
     kFF = .00001; 
     kMaxOutput = 1.0/7; 
     kMinOutput = -1.0/7;
+    // motor.setSoftLimit(SoftLimitDirection.kForward, 21.5f);
+    // motor.enableSoftLimit(SoftLimitDirection.kForward, true);
 
     m_pidController.setP(kP); 
     m_pidController.setI(kI);

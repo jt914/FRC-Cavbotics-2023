@@ -34,18 +34,18 @@ public class ClawCommand extends CommandBase {
   @Override
   public void execute() {
     if(remote.getLeftBumperPressed()){
-        claw.close();
+        claw.closeCube();
 
-    } else if (remote.getRightBumperPressed()){
+    } else if (remote.getBButtonPressed()){
         claw.open();
-    } else if (remote.getBButtonPressed())
+    } else if (remote.getRightBumperPressed())
     {
         claw.closeCone();
     }
-    else if(remote.getXButtonPressed()){
-      claw.enc.setPosition(0);
+    // else if(remote.getXButtonPressed()){
+    //   claw.enc.setPosition(0);
 
-    }
+    // }
   }
   @Override
   public void end(boolean interrupted) {

@@ -34,29 +34,36 @@ public class ArmCommand extends CommandBase {
   @Override
   public void execute() {
 
-    if(remote.getAButton()){
+    if(remote.getLeftTriggerAxis() > 0.5){
+      
       arm.stageTwo.m_pidController.setReference(14.7, ControlType.kPosition);
       arm.stageOne.m_pidController.setReference(-11, ControlType.kPosition);
-
     }
-    if(remote.getBButton()){
-      arm.stageTwo.m_pidController.setReference(-3, ControlType.kPosition);
-      arm.stageOne.m_pidController.setReference(-3, ControlType.kPosition);
 
+    if(remote.getRightTriggerAxis() > 0.5){
+      
+      arm.stageTwo.m_pidController.setReference(15.5, ControlType.kPosition);
+      arm.stageOne.m_pidController.setReference(-11.8, ControlType.kPosition);
     }
+
+    // if(remote.getBButton()){
+    //   arm.stageTwo.m_pidController.setReference(-3, ControlType.kPosition);
+    //   arm.stageOne.m_pidController.setReference(-3, ControlType.kPosition);
+
+    // }
 
 
     
     if(remote.getLeftY() < 0 && Math.abs(remote.getLeftY()) > 0.15){
       if(arm.stageOne.incrementDown(1)){
-        arm.stageTwo.incrementDown(0.8);
+        //arm.stageTwo.incrementDown(0.8);
       }
       arm.stageOne.incrementDown(1);
 
 
     } else if (remote.getLeftY() > 0 && Math.abs(remote.getLeftY()) > 0.15){
       if(arm.stageOne.incrementUp(1)){
-        arm.stageTwo.incrementUp(0.8);
+       // arm.stageTwo.incrementUp(0.8);
       }
       arm.stageOne.incrementUp(1);
 

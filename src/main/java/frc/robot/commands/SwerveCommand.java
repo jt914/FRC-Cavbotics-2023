@@ -41,23 +41,25 @@ public class SwerveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        double forward = -remote.getRawAxis(1);
-        double strafe = -remote.getRawAxis(0);
-        double rotation = -remote.getRawAxis(4);
 
-        forward = deadzone(forward, 0.1);
-        strafe = deadzone(strafe, 0.1);
-        rotation = deadzone(rotation, 0.1);
+        
+        // double forward = -remote.getRawAxis(1);
+        // double strafe = -remote.getRawAxis(0);
+        // double rotation = -remote.getRawAxis(4);
 
-        forward = applyCurve(forward, 0.1, 3);
-        strafe = applyCurve(strafe, 0.1, 3);
-        rotation = applyCurve(rotation, 0.1, 3);
+        // forward = deadzone(forward, 0.1);
+        // strafe = deadzone(strafe, 0.1);
+        // rotation = deadzone(rotation, 0.1);
 
-        if (Math.abs(forward) >= 0.1 || Math.abs(strafe) >= 0.1 || Math.abs(rotation) >= 0.1) {
-            swerveDrive.updatePeriodic(strafe, forward, rotation);
-        } else {
-            swerveDrive.stopAll();
-        }
+        // forward = applyCurve(forward, 0.1, 3);
+        // strafe = applyCurve(strafe, 0.1, 3);
+        // rotation = applyCurve(rotation, 0.1, 3);
+
+        // if (Math.abs(forward) >= 0.1 || Math.abs(strafe) >= 0.1 || Math.abs(rotation) >= 0.1) {
+        //     swerveDrive.updatePeriodic(strafe, forward, rotation);
+        // } else {
+        //     swerveDrive.stopAll();
+        // }
 
         if (remote.getBButtonPressed()) {
             swerveDrive.updatePeriodic(0.01, 0, 0);
@@ -67,6 +69,13 @@ public class SwerveCommand extends CommandBase {
             swerveDrive.updatePeriodic(-0.01, 0, 0);
             swerveDrive.setCoast();
         }
+
+        
+        if (Math.abs(remote.getLeftX()) >= 0.1 || Math.abs(remote.getLeftY()) >= 0.1 || Math.abs(remote.getRightX()) >= 0.1) {
+            swerveDrive.updatePeriodic(remote.getLeftX(), remote.getLeftY(), remote.getRightX());
+            } else {
+        swerveDrive.stopAll();
+}
     }
 
     @Override

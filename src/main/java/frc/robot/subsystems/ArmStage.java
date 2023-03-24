@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -30,7 +31,11 @@ public class ArmStage extends SubsystemBase {
     enc = motor.getEncoder();
     m_pidController = motor.getPIDController();
     currAngle = 0;
-    
+    // motor.setSoftLimit(SoftLimitDirection.kForward, -1.5f);
+    // motor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    // motor.setSoftLimit(SoftLimitDirection.kReverse, -10.3f);
+    // motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
     kP = 0.4; 
     kI = 0;
     kD = 0; 
@@ -62,6 +67,7 @@ public class ArmStage extends SubsystemBase {
   public boolean incrementDown(double mult){
     double currPos = getAngle();
     if(currPos > -11.3){
+
       m_pidController.setReference(currPos - (0.4*mult), ControlType.kPosition);
     return true;  
     }else{
