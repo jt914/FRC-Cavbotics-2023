@@ -57,7 +57,7 @@ public class Claw extends SubsystemBase {
     m_pidController.setReference(-18, ControlType.kPosition);  
   }
   public void closeCone(){
-    m_pidController.setReference(-25, ControlType.kPosition);
+    m_pidController.setReference(-27, ControlType.kPosition);
   }
 
   // public void closeClaw(){

@@ -55,11 +55,11 @@ public class ArmStage extends SubsystemBase {
 
   public boolean incrementUp(double mult){
     double currPos = getAngle();
-    if(currPos < -1.5){
+    if(currPos < -2.5){
       m_pidController.setReference(currPos + (0.4*mult), ControlType.kPosition);
     return true;  
     }else{
-      m_pidController.setReference(-1.5, ControlType.kPosition);
+      m_pidController.setReference(-2.5, ControlType.kPosition);
       return false;
     }
   }
