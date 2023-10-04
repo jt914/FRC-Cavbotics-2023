@@ -32,6 +32,14 @@ public class RobotContainer {
     configureBindings();
   }
 
+  public RobotContainer(String a) {
+    speed = 0.5;
+    swerveController = new XboxController(0);
+    armController = new XboxController(1);
+    configureBindings();
+    System.out.print(a);
+  }
+
 
   private void configureBindings() {
     new JoystickButton(swerveController, XboxController.Button.kStart.value).onTrue(new SwerveCommand(Constants.swerveDrive));
