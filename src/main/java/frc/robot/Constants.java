@@ -23,7 +23,7 @@ public final class Constants {
   public static Arm arm = new Arm();
   public static Claw claw = new Claw(11);
 
-
+  public static Arm james = new Arm();
 
 
 }
